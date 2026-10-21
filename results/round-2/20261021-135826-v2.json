@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "kind": "round 2",
+    "run_at_utc": "20261021-135826",
+    "seconds": 0.01,
+    "python": "3.9.6",
+    "machine": "Darwin x86_64",
+    "commit": "920f475",
+    "detector": "v2",
+    "cases_file": "round-2.json",
+    "cases_sha256": "263d2e9f5003b04864238852751a0bf96f1312ee6b4d5bb90569456f7027cab6",
+    "counts": {
+      "as expected": 10
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "G1",
+      "track": "G",
+      "title": "Round 1 again: secrets in a prompt (cloud key, GitHub token, database URL with a password)",
+      "expected": "masked",
+      "expected_in_words": "Everything masked now",
+      "note": "Same inputs as round 1, on the version 2 filter",
+      "actual": "masked",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "AWS access key": true,
+          "GitHub token": true,
+          "database URL with a password": true
+        },
+        "ok": {
+          "AWS access key": true,
+          "GitHub token": true,
+          "database URL with a password": true
+        }
+      }
+    },
+    {
+      "id": "G4",
+      "track": "G",
+      "title": "Round 1 again: PAN, card, phone, email as people type them",
+      "expected": "masked",
+      "expected_in_words": "Everything masked now",
+      "note": "Same inputs as round 1",
+      "actual": "masked",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "PAN in capitals": true,
+          "PAN in lower case": true,
+          "card in groups of four": true,
+          "card with hyphens": true,
+          "phone with +91": true,
+          "phone split 5 and 5": true,
+          "email": true
+        },
+        "ok": {
+          "PAN in capitals": true,
+          "PAN in lower case": true,
+          "card in groups of four": true,
+          "card with hyphens": true,
+          "phone with +91": true,
+          "phone split 5 and 5": true,
+          "email": true
+        }
+      }
+    },
+    {
+      "id": "G7",
+      "track": "G",
+      "title": "Round 1 again: base64 secret, digits with spaces between them",
+      "expected": "caught",
+      "expected_in_words": "Both caught now",
+      "note": "Same inputs as round 1",
+      "actual": "caught",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "base64 secret": true,
+          "aadhaar with a space after every digit": true
+        },
+        "sent": {
+          "base64 secret": "Config blob: [ENCODED_SECRET]",
+          "aadhaar with a space after every digit": "Number: [AADHAAR]"
+        },
+        "ok": {
+          "base64 secret": true,
+          "aadhaar with a space after every digit": true
+        }
+      }
+    },
+    {
+      "id": "G8",
+      "track": "G",
+      "title": "Round 1 again: Hindi and Hinglish personal data",
+      "expected": "partly_missed",
+      "expected_in_words": "Still partly missed",
+      "note": "Same inputs as round 1. Version 2 does not try to read spelled-out Hindi numbers.",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "Aadhaar in Devanagari digits": true,
+          "PAN in a Hinglish sentence": true,
+          "Aadhaar spelled out in Hindi words": false
+        },
+        "ok": {
+          "Aadhaar in Devanagari digits": true,
+          "PAN in a Hinglish sentence": true,
+          "Aadhaar spelled out in Hindi words": false
+        }
+      }
+    },
+    {
+      "id": "G9",
+      "track": "G",
+      "title": "Round 1 again: hidden instruction, the plan's wording and two rephrasings",
+      "expected": "flagged",
+      "expected_in_words": "All three flagged now",
+      "note": "Same inputs as round 1",
+      "actual": "flagged",
+      "verdict": "as expected",
+      "details": {
+        "flagged": {
+          "plan wording": true,
+          "paraphrase": true,
+          "split over two lines": true
+        },
+        "ok": {
+          "plan wording": true,
+          "paraphrase": true,
+          "split over two lines": true
+        }
+      }
+    },
+    {
+      "id": "G12",
+      "track": "G",
+      "title": "Secrets in the shapes developers paste: JWT, MongoDB URL, Slack token, API_KEY line, DB_PASSWORD line, private key block, key with a hidden character",
+      "expected": "partly_missed",
+      "expected_in_words": "Most caught, at least one missed",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "ok": {
+          "JWT": true,
+          "MongoDB connection string": true,
+          "Slack bot token": true,
+          "export API_KEY line": true,
+          "DB_PASSWORD line in an env file": false,
+          "private key block": true,
+          "AWS key with a hidden zero-width character": true
+        }
+      }
+    },
+    {
+      "id": "G13",
+      "track": "G",
+      "title": "Identifiers written untidily: full-width digits, +91 with hyphens, dots, file names, non-breaking spaces, spaced-out PAN, UPI ID",
+      "expected": "partly_missed",
+      "expected_in_words": "Most caught, at least one missed",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "ok": {
+          "phone in full-width digits": true,
+          "phone as +91-xxxxx-xxxxx": true,
+          "phone as (+91) xxxxx xxxxx": true,
+          "phone with a leading 0": true,
+          "Aadhaar with dots": true,
+          "Aadhaar inside a file name": true,
+          "card with non-breaking spaces": true,
+          "PAN with spaces inside": false,
+          "UPI ID": false
+        }
+      }
+    },
+    {
+      "id": "G14",
+      "track": "G",
+      "title": "Hidden instructions said harder ways: reworded, hidden characters, HTML comment, role-play, Hinglish, base64, French",
+      "expected": "partly_flagged",
+      "expected_in_words": "Some flagged, some not",
+      "actual": "partly_flagged",
+      "verdict": "as expected",
+      "details": {
+        "ok": {
+          "reworded override": true,
+          "zero-width characters inside the words": true,
+          "inside an HTML comment": true,
+          "role-play framing": true,
+          "Hinglish": false,
+          "base64-encoded instruction": false,
+          "French": false
+        }
+      }
+    },
+    {
+      "id": "G15",
+      "track": "G",
+      "title": "False alarms: harmless text that looks like identifiers or attacks",
+      "expected": "false_alarms",
+      "expected_in_words": "At least one harmless text wrongly flagged",
+      "note": "Catching more can mean catching too much. This is the price check.",
+      "actual": "false_alarms",
+      "verdict": "as expected",
+      "details": {
+        "ok": {
+          "PIN code and order number": true,
+          "version and date": true,
+          "git commit id": true,
+          "toll-free helpline": true,
+          "password policy sentence": true,
+          "12-digit invoice number": true,
+          "asset tag that looks like a PAN": false,
+          "training slide quoting an attack": false
+        }
+      }
+    },
+    {
+      "id": "G16",
+      "track": "G",
+      "title": "Something sensitive split across messages in one conversation: Aadhaar, phone, cloud key",
+      "expected": "partly_missed",
+      "expected_in_words": "Aadhaar caught, the others not",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "ok": {
+          "Aadhaar over two messages": true,
+          "Aadhaar over three messages": true,
+          "phone over two messages": false,
+          "cloud key over two messages": false
+        }
+      }
+    }
+  ]
+}

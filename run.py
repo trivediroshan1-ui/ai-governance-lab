@@ -48,7 +48,8 @@ def main() -> int:
     detector = None
     if args.round >= 2:
         from lab import detectors
-        from lab.cases_r2 import CASES as CASES2
+        import importlib
+        CASES2 = importlib.import_module(f"lab.cases_r{args.round}").CASES
         detector = detectors.get(args.detector)
     cases_path = ROOT / "cases" / f"round-{args.round}.json"
     raw = cases_path.read_bytes()

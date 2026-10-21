@@ -44,3 +44,20 @@ construction. The value comes from your own guesses, from harder variants you
 add, and from running the same inputs on tools nobody here wrote. Add your own
 variants to G12, G13 and G14 from what you have seen in real Indian data
 before you run.
+
+## Round three
+
+Same rule: guesses in `cases/round-3.json` are committed before the first run.
+Two cases carry a "finding" in their details that is worth reading even when
+the verdict is "as expected": E5 (a hash chain cannot see lines cut off the
+end without an anchor kept elsewhere) and I10 (flagging an idle agent does not
+remove its access). E12 reports what a label does not survive: copy-paste, a
+system that strips unknown tags, and one changed word.
+
+Changes to the lab itself while building round three, so nothing is hidden:
+models now need a supplier review on file before use (E7, seeded for both
+existing models), the register can require an AI notice on customer-facing
+uses (E8), a use can name a fallback model (E14), the gateway can screen a
+model's answer (G10), the log can be pruned after its retention period and
+anchored (E5), and a brand-new agent is no longer counted as idle on day 0
+(I10). Rounds one and two give the same results as before these changes.

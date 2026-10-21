@@ -67,6 +67,28 @@ every one is invented, and each customer record is marked as test data.
   products and governance platforms all exist. The point is an open, tested
   reference that shows its misses.
 
+## Round two: a better filter, and other people's tools
+
+Round one found where the plain filter breaks. Round two does three things:
+
+1. A second filter (`lab/guardrail_v2.py`) that fixes those gaps and leaves some on purpose.
+2. Ten more guardrail cases in `cases/round-2.json`, including harmless text that should be left alone, because catching more can mean catching too much.
+3. A way to run the same inputs on a tool someone else wrote.
+
+```
+python3 run.py --round 2                          # the version 2 filter
+python3 run.py --round 2 --detector v1            # the round-one filter, same inputs
+python3 compare.py v1 v2                          # one table, filters side by side
+python3 compare.py v2 "external:python3 adapters/presidio_cmd.py"
+```
+
+Wrapping another tool takes about 20 lines: see `adapters/example_stub.py` and
+`adapters/README.md`. A tool is only scored on jobs it claims to do, so a PII
+library isn't marked down for not detecting prompt injection.
+
+Read the false-alarm case (G15) together with the misses: a tool that detects
+almost nothing leaves harmless text alone and looks good there.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

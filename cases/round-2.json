@@ -1,0 +1,82 @@
+{
+  "round": 2,
+  "note": "Round two. The guardrail filter again (version 2), the same round-one inputs plus harder ones. These expected results are guesses written before the first round-two run. Change any you disagree with, commit this file, then run: python3 run.py --round 2",
+  "cases": [
+    {
+      "id": "G1",
+      "track": "G",
+      "title": "Round 1 again: secrets in a prompt (cloud key, GitHub token, database URL with a password)",
+      "expected": "masked",
+      "expected_in_words": "Everything masked now",
+      "note": "Same inputs as round 1, on the version 2 filter"
+    },
+    {
+      "id": "G4",
+      "track": "G",
+      "title": "Round 1 again: PAN, card, phone, email as people type them",
+      "expected": "masked",
+      "expected_in_words": "Everything masked now",
+      "note": "Same inputs as round 1"
+    },
+    {
+      "id": "G7",
+      "track": "G",
+      "title": "Round 1 again: base64 secret, digits with spaces between them",
+      "expected": "caught",
+      "expected_in_words": "Both caught now",
+      "note": "Same inputs as round 1"
+    },
+    {
+      "id": "G8",
+      "track": "G",
+      "title": "Round 1 again: Hindi and Hinglish personal data",
+      "expected": "partly_missed",
+      "expected_in_words": "Still partly missed",
+      "note": "Same inputs as round 1. Version 2 does not try to read spelled-out Hindi numbers."
+    },
+    {
+      "id": "G9",
+      "track": "G",
+      "title": "Round 1 again: hidden instruction, the plan's wording and two rephrasings",
+      "expected": "flagged",
+      "expected_in_words": "All three flagged now",
+      "note": "Same inputs as round 1"
+    },
+    {
+      "id": "G12",
+      "track": "G",
+      "title": "Secrets in the shapes developers paste: JWT, MongoDB URL, Slack token, API_KEY line, DB_PASSWORD line, private key block, key with a hidden character",
+      "expected": "partly_missed",
+      "expected_in_words": "Most caught, at least one missed"
+    },
+    {
+      "id": "G13",
+      "track": "G",
+      "title": "Identifiers written untidily: full-width digits, +91 with hyphens, dots, file names, non-breaking spaces, spaced-out PAN, UPI ID",
+      "expected": "partly_missed",
+      "expected_in_words": "Most caught, at least one missed"
+    },
+    {
+      "id": "G14",
+      "track": "G",
+      "title": "Hidden instructions said harder ways: reworded, hidden characters, HTML comment, role-play, Hinglish, base64, French",
+      "expected": "partly_flagged",
+      "expected_in_words": "Some flagged, some not"
+    },
+    {
+      "id": "G15",
+      "track": "G",
+      "title": "False alarms: harmless text that looks like identifiers or attacks",
+      "expected": "false_alarms",
+      "expected_in_words": "At least one harmless text wrongly flagged",
+      "note": "Catching more can mean catching too much. This is the price check."
+    },
+    {
+      "id": "G16",
+      "track": "G",
+      "title": "Something sensitive split across messages in one conversation: Aadhaar, phone, cloud key",
+      "expected": "partly_missed",
+      "expected_in_words": "Aadhaar caught, the others not"
+    }
+  ]
+}

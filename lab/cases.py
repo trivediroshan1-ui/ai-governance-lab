@@ -1,3 +1,4 @@
+from __future__ import annotations
 """What each round-one case does. Each function builds a fresh World, does
 the thing the case describes and returns (outcome, details). The runner
 compares the outcome with the expected one written in cases/round-1.json

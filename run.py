@@ -1,3 +1,4 @@
+from __future__ import annotations
 #!/usr/bin/env python3
 """Runs the AI Governance Lab cases and writes the results.
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """The AI use register: every approved use of AI at Kaveri Finance, with a
 named owner, a purpose, a risk tier, the data it may touch, the model and
 version it was approved for, who approved it and until when."""

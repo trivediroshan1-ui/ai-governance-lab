@@ -1,3 +1,4 @@
+from __future__ import annotations
 """The AI use gateway: every call to a model goes through here. It checks the
 register, the model, the data, where the model runs and which tools are
 asked for, masks what the guardrail finds, and writes every decision to the

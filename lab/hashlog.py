@@ -1,3 +1,4 @@
+from __future__ import annotations
 """An append-only decision log where every line carries the hash of the line
 before it. Changing, removing or reordering any line breaks the chain from
 that point, and verify() says where."""

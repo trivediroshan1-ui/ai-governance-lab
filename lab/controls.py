@@ -1,3 +1,4 @@
+from __future__ import annotations
 """The control map (case E9): each lab control, the cases that test it, and
 where it lines up in the main frameworks.
 

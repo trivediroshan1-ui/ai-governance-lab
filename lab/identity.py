@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Agent identity and access: every AI agent gets its own identity, a named
 human sponsor, a fixed set of scopes and short-lived signed tokens. Agents
 acting for a person never get more than that person has. Privileged actions

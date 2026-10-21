@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Kaveri Finance: a made-up Indian lender, its staff and its customers.
 
 Same seed, same company, every time, so every run sees the same data.

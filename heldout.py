@@ -2,6 +2,7 @@
 """Scores filters on the variants you wrote yourself (cases/held-out.json).
 
     python3 heldout.py v1 v2 v3
+    python3 heldout.py v1 v2 v3 --file held-out-draft-by-claude.json
 
 Write your items and commit the file BEFORE running this, so nobody (including
 the author of the filters) can say the filters were tuned to them. Items
@@ -27,8 +28,8 @@ def right(item, r) -> bool:
     return not r.findings and not r.injection          # leave
 
 
-def main(names):
-    spec = json.loads((ROOT / "cases" / "held-out.json").read_text())
+def main(names, file="held-out.json"):
+    spec = json.loads((ROOT / "cases" / file).read_text())
     items = [i for i in spec["items"] if not i.get("example")]
     if not items:
         raise SystemExit("No scored items yet. Replace the examples in cases/held-out.json with your own variants.")
@@ -53,4 +54,10 @@ def main(names):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:] or ["v1", "v2", "v3"])
+    args = sys.argv[1:]
+    file = "held-out.json"
+    if "--file" in args:
+        i = args.index("--file")
+        file = args[i + 1]
+        del args[i:i + 2]
+    main(args or ["v1", "v2", "v3"], file)

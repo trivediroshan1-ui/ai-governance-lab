@@ -34,3 +34,13 @@ result, fix, run again.
 `python3 run.py --dry-run` checks the code runs end to end. Its results go to
 `results/dry-run/`, which git ignores, because they come before the guesses are
 final and aren't the lab's result.
+
+## Round two
+
+The guesses for round two are in `cases/round-2.json` and, as in round one,
+get committed before the run. One honest limit: the author wrote the filter
+and the first draft of the guesses, so the draft guesses match the code by
+construction. The value comes from your own guesses, from harder variants you
+add, and from running the same inputs on tools nobody here wrote. Add your own
+variants to G12, G13 and G14 from what you have seen in real Indian data
+before you run.

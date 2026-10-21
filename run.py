@@ -42,8 +42,14 @@ def main() -> int:
     ap.add_argument("--round", type=int, default=1)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="")
+    ap.add_argument("--detector", default="v2", help="round 2 only: v1, v2 or external:<command>")
     args = ap.parse_args()
 
+    detector = None
+    if args.round >= 2:
+        from lab import detectors
+        from lab.cases_r2 import CASES as CASES2
+        detector = detectors.get(args.detector)
     cases_path = ROOT / "cases" / f"round-{args.round}.json"
     raw = cases_path.read_bytes()
     spec = json.loads(raw)
@@ -54,12 +60,12 @@ def main() -> int:
     for c in spec["cases"]:
         if only and c["id"] not in only:
             continue
-        fn = CASES.get(c["id"])
+        fn = (CASES2 if detector else CASES).get(c["id"])
         if fn is None:
             rows.append({**c, "actual": None, "verdict": "not run", "details": {"why": "no implementation yet"}})
             continue
         try:
-            actual, details = fn()
+            actual, details = fn(detector) if detector else fn()
             verdict = "as expected" if actual == c["expected"] else "different"
         except Exception as e:  # a crash is a result too
             actual, verdict = "error", "not run"
@@ -75,18 +81,18 @@ def main() -> int:
         "kind": "dry run (not a lab result)" if args.dry_run else f"round {args.round}",
         "run_at_utc": stamp, "seconds": round(seconds, 2), "python": platform.python_version(),
         "machine": f"{platform.system()} {platform.machine()}", "commit": git_commit(),
-        "cases_file": cases_path.name, "cases_sha256": hashlib.sha256(raw).hexdigest(), "counts": counts,
+        "detector": detector.name if detector else "built-in", "cases_file": cases_path.name, "cases_sha256": hashlib.sha256(raw).hexdigest(), "counts": counts,
         "data": "Kaveri Finance is made up. Every name and ID number is invented test data.",
     }
     outdir = ROOT / "results" / ("dry-run" if args.dry_run else f"round-{args.round}")
     outdir.mkdir(parents=True, exist_ok=True)
-    base = outdir / f"{stamp}"
+    base = outdir / (f"{stamp}-{detector.name}" if detector else f"{stamp}")
     base.with_suffix(".json").write_text(json.dumps({"meta": meta, "results": rows}, indent=2, ensure_ascii=False,
                                                     default=str) + "\n")
 
     lines = [f"# AI Governance Lab: {meta['kind']}", "",
              f"Run {stamp} UTC on {meta['machine']}, Python {meta['python']}, commit {meta['commit']}, "
-             f"{meta['seconds']} s. Cases file sha256 {meta['cases_sha256'][:16]}.", "",
+             f"{meta['seconds']} s. Detector: {meta['detector']}. Cases file sha256 {meta['cases_sha256'][:16]}.", "",
              "Verdicts: " + ", ".join(f"{k} {v}" for k, v in sorted(counts.items())), ""]
     for t, name in TRACKS.items():
         part = [r for r in rows if r["track"] == t]

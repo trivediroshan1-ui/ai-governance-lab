@@ -18,6 +18,7 @@ class Model:
     version: str
     region: str            # where it runs: "IN" or anywhere else
     allowed_data: list[str]
+    review: dict | None = None   # supplier and model review on file (who, when, what)
 
 
 @dataclass
@@ -37,6 +38,9 @@ class Use:
     risk_assessment: str | None = None
     human_signoff: str | None = None
     aibom: dict | None = None
+    audience: str = "staff"          # staff or customer
+    notice: str | None = None        # the "you are dealing with AI" text, for customer-facing uses
+    fallback_model: str | None = None
 
 
 class RegistryError(Exception):
@@ -62,6 +66,10 @@ class Registry:
             raise RegistryError("Unknown model.")
         if use.risk_tier not in RISK_TIERS:
             raise RegistryError("Unknown risk tier.")
+        if use.audience == "customer" and not use.notice:
+            raise RegistryError("A customer-facing use needs a notice telling people they are dealing with AI.")
+        if use.fallback_model and use.fallback_model not in self.models:
+            raise RegistryError("Unknown fallback model.")
         self.uses[use.id] = use
         self._record("registered", use, owner=use.owner, risk_tier=use.risk_tier)
         return use
@@ -108,3 +116,30 @@ class Registry:
             use.status = "expired"
             self._record("expired", use)
         return use
+
+
+    def recertify(self, use_id: str, approver: str) -> Use:
+        """An expired use asks to be approved again, by someone other than its owner."""
+        use = self.uses[use_id]
+        if use.status != "expired":
+            raise RegistryError("Only an expired use needs re-certification.")
+        use.status = "draft"
+        try:
+            return self.approve(use_id, approver)
+        except RegistryError:
+            use.status = "expired"
+            raise
+
+    def snapshot(self) -> dict:
+        """The register as it stands: used for the periodic review (E10)."""
+        return {u.id: {"name": u.name, "owner": u.owner, "tier": u.risk_tier, "model": f"{u.model} {u.model_version}",
+                       "status": u.status, "tools": sorted(u.tools)} for u in self.uses.values()}
+
+
+def diff(old: dict, new: dict) -> dict:
+    changed = {}
+    for k in old.keys() & new.keys():
+        delta = {f: (old[k][f], new[k][f]) for f in old[k] if old[k][f] != new[k][f]}
+        if delta:
+            changed[k] = delta
+    return {"added": sorted(new.keys() - old.keys()), "removed": sorted(old.keys() - new.keys()), "changed": changed}

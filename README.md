@@ -89,6 +89,31 @@ library isn't marked down for not detecting prompt injection.
 Read the false-alarm case (G15) together with the misses: a tool that detects
 almost nothing leaves harmless text alone and looks good there.
 
+## Round three: the rest of the plan
+
+Round three builds the remaining use cases from the plan that can run offline:
+approval expiry (A9), personal data in uploaded files (G6), secrets repeated in
+a model's answer (G10), a 200-sample labelled test set (G17), idle agents
+(I10), poisoned agent memory (I12), log retention and tamper evidence (E5),
+model and supplier review (E7), AI notices (E8), the quarterly review diff
+(E10), AI content labels (E12), explaining a declined decision (E13) and
+fallback when a model fails (E14).
+
+```
+python3 run.py --round 3
+python3 rates.py v1 v2                  # catch and false-alarm rates on the 200 samples
+python3 rates.py v2 "external:python3 adapters/presidio_cmd.py"
+```
+
+Track P (real assistants under one made-up policy) cannot run offline. It is
+a hand-run harness: `python3 run_p.py --show P1` prints the prompt and the
+made-up material, `python3 run_p.py --record "assistant name"` records what you
+saw. Policy in `docs/kaveri-ai-policy.md`, cases in `cases/track-p.json`.
+Personal accounts and made-up data only.
+
+Numbering: round two used G12 to G16 for extra guardrail cases, so the plan's
+labelled test set (G12) is G17 here.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

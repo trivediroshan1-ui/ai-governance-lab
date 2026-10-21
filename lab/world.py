@@ -27,18 +27,23 @@ class Clock:
         self.now += timedelta(**kw)
 
 
+REVIEW = {"supplier": "in-house stub", "reviewed_by": "S031", "reviewed_on": "2026-10-01",
+          "summary": "Supplier and model review (made up)"}
+
+
 class World:
-    def __init__(self):
+    def __init__(self, screen=None):
         self.company = data.company()
         self.staff = self.company["staff"]
         self.clock = Clock()
         self.log = HashLog()
         self.models = [
-            Model("kaveri-small", "1.2", "IN", ["public", "internal", "confidential", "personal"]),
-            Model("global-large", "4.0", "US", ["public", "internal", "confidential"]),
+            Model("kaveri-small", "1.2", "IN", ["public", "internal", "confidential", "personal"], dict(REVIEW)),
+            Model("global-large", "4.0", "US", ["public", "internal", "confidential"],
+                  {**REVIEW, "supplier": "global-large vendor (made up)"}),
         ]
         self.registry = Registry(self.staff, self.models, self.log, self.clock)
-        self.gateway = Gateway(self.registry, self.log, self.clock)
+        self.gateway = Gateway(self.registry, self.log, self.clock, screen)
         self.identity = IdentityService(self.staff, self.log, self.clock)
         self.approver = "S001"      # approvers: S001, S011, S021, S031
         self.approver2 = "S011"
@@ -55,7 +60,8 @@ class World:
         r.approve("U2", self.approver)
         r.register(Use("U3", "collections-agent", "S003", "Agent that drafts collection reminders", "medium",
                        ["internal", "personal"], "kaveri-small", "1.2", tools=["crm.read", "email.draft"],
-                       aibom=dict(AIBOM)))
+                       aibom=dict(AIBOM), audience="customer",
+                       notice="This reminder was drafted with AI and checked by a person at Kaveri Finance."))
         r.approve("U3", self.approver2)
 
     def customer(self, i: int = 0) -> dict:

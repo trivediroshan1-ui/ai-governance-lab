@@ -31,6 +31,7 @@ class Agent:
     status: str = "active"          # active, disabled, killed
     key: bytes = field(default_factory=lambda: secrets.token_bytes(32))
     last_seen: datetime | None = None
+    created: datetime | None = None
 
 
 def _b64(raw: bytes) -> str:
@@ -62,7 +63,7 @@ class IdentityService:
     def register_agent(self, agent_id: str, sponsor: str | None, scopes: set[str]) -> Agent:
         if not sponsor or sponsor not in self.staff or not self.staff[sponsor]["active"]:
             raise IdentityError("An agent needs a named, active human sponsor.")
-        agent = Agent(agent_id, sponsor, set(scopes))
+        agent = Agent(agent_id, sponsor, set(scopes), created=self.clock())
         self.agents[agent_id] = agent
         self._record("agent_registered", agent=agent_id, sponsor=sponsor, scopes=sorted(scopes))
         return agent
@@ -87,7 +88,7 @@ class IdentityService:
     def orphans(self) -> list[str]:
         now = self.clock()
         return sorted(a.id for a in self.agents.values()
-                      if a.status == "active" and (a.last_seen is None or now - a.last_seen > timedelta(days=ORPHAN_DAYS)))
+                      if a.status == "active" and now - (a.last_seen or a.created or now) > timedelta(days=ORPHAN_DAYS))
 
     # Tokens
 

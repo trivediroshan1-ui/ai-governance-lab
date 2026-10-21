@@ -61,3 +61,14 @@ uses (E8), a use can name a fallback model (E14), the gateway can screen a
 model's answer (G10), the log can be pruned after its retention period and
 anchored (E5), and a brand-new agent is no longer counted as idle on day 0
 (I10). Rounds one and two give the same results as before these changes.
+
+## Round four and held-out variants
+
+Version 3 is a patch for known misses. The honest measure of whether a filter
+works is how it does on inputs its author has not seen. `cases/held-out.json`
+holds variants written by someone other than the filter's author, committed
+before the filters run on them. If v3 scores no better than v2 on those, the
+round-three improvement was fitting the test set, and that is worth saying
+in public. Known limits of v3: UPI detection uses a list of common handles, so
+a new handle is missed; the spaced-PAN rule needs capitals; the `91` phone
+prefix can also match other 12-digit numbers that start with 91.

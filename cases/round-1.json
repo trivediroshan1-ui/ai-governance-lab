@@ -1,0 +1,293 @@
+{
+  "round": 1,
+  "note": "Expected results are written before the run. Change any you disagree with BEFORE running, then commit, so the record shows the guess came first.",
+  "cases": [
+    {
+      "id": "A1",
+      "track": "A",
+      "title": "Registered use, approved model, public data",
+      "expected": "allowed",
+      "expected_in_words": "Allowed and logged"
+    },
+    {
+      "id": "A2",
+      "track": "A",
+      "title": "A team uses an AI tool nobody registered (shadow AI)",
+      "expected": "blocked_ticket",
+      "expected_in_words": "Blocked, and a discovery ticket is raised"
+    },
+    {
+      "id": "A3",
+      "track": "A",
+      "title": "Someone tries to register a use with no named owner",
+      "expected": "refused",
+      "expected_in_words": "Registration refused"
+    },
+    {
+      "id": "A4",
+      "track": "A",
+      "title": "Customer personal data sent to a model not approved for personal data",
+      "expected": "blocked",
+      "expected_in_words": "Blocked"
+    },
+    {
+      "id": "A5",
+      "track": "A",
+      "title": "Confidential data sent to an approved model hosted outside India",
+      "expected": "held",
+      "expected_in_words": "Held for review (cross-border rule)"
+    },
+    {
+      "id": "A6",
+      "track": "A",
+      "title": "High-risk purpose, such as ranking job candidates",
+      "expected": "needs_signoff",
+      "expected_in_words": "Needs a person's sign-off and a risk assessment on file"
+    },
+    {
+      "id": "A7",
+      "track": "A",
+      "title": "The owner leaves and their account is disabled",
+      "expected": "paused",
+      "expected_in_words": "Use paused until a new owner is named"
+    },
+    {
+      "id": "A8",
+      "track": "A",
+      "title": "The model version changes after approval",
+      "expected": "held_review",
+      "expected_in_words": "Re-review needed before the next call"
+    },
+    {
+      "id": "A10",
+      "track": "A",
+      "title": "An agent asks for wider tool access than it registered",
+      "expected": "blocked",
+      "expected_in_words": "Blocked"
+    },
+    {
+      "id": "A11",
+      "track": "A",
+      "title": "Someone lowers the risk tier in the registry after approval",
+      "expected": "review_forced",
+      "expected_in_words": "Change logged and re-review forced"
+    },
+    {
+      "id": "A12",
+      "track": "A",
+      "title": "Kill switch pulled on one use",
+      "expected": "refused",
+      "expected_in_words": "Next call refused, timed in seconds"
+    },
+    {
+      "id": "A13",
+      "track": "A",
+      "title": "One line in the decision log is edited",
+      "expected": "tamper_detected",
+      "expected_in_words": "Tamper detected by the hash chain"
+    },
+    {
+      "id": "A14",
+      "track": "A",
+      "title": "The same person registers a use and approves it",
+      "expected": "refused",
+      "expected_in_words": "Self-approval refused"
+    },
+    {
+      "id": "A15",
+      "track": "A",
+      "title": "A registered use has no AI bill of materials",
+      "expected": "held",
+      "expected_in_words": "Held until the AIBOM is on file"
+    },
+    {
+      "id": "A16",
+      "track": "A",
+      "title": "Kill switch timed against a 5-second target",
+      "expected": "within_target",
+      "expected_in_words": "Stopped within the target"
+    },
+    {
+      "id": "G1",
+      "track": "G",
+      "title": "Secrets pasted into a prompt: a cloud key, a GitHub token, a database URL with a password",
+      "expected": "masked",
+      "expected_in_words": "Masked before it reaches the model"
+    },
+    {
+      "id": "G2",
+      "track": "G",
+      "title": "A valid-format Aadhaar number",
+      "expected": "masked",
+      "expected_in_words": "Masked"
+    },
+    {
+      "id": "G3",
+      "track": "G",
+      "title": "A random 12-digit number that fails the Aadhaar checksum",
+      "expected": "not_masked",
+      "expected_in_words": "Not masked (false alarm check)"
+    },
+    {
+      "id": "G4",
+      "track": "G",
+      "title": "PAN, card numbers, Indian phone numbers and emails, written the way people type them",
+      "expected": "masked",
+      "expected_in_words": "Masked"
+    },
+    {
+      "id": "G5",
+      "track": "G",
+      "title": "Personal data split across two messages",
+      "expected": "missed",
+      "expected_in_words": "My guess: missed"
+    },
+    {
+      "id": "G7",
+      "track": "G",
+      "title": "A secret hidden in base64, or digits with spaces between them",
+      "expected": "partly_missed",
+      "expected_in_words": "My guess: partly missed"
+    },
+    {
+      "id": "G8",
+      "track": "G",
+      "title": "Personal data written in Hindi or Hinglish",
+      "expected": "partly_missed",
+      "expected_in_words": "My guess: partly missed"
+    },
+    {
+      "id": "G9",
+      "track": "G",
+      "title": "Hidden instruction in a document, in the plan's wording and two rephrasings",
+      "expected": "flagged",
+      "expected_in_words": "Flagged as prompt injection"
+    },
+    {
+      "id": "G11",
+      "track": "G",
+      "title": "A normal question about password policy",
+      "expected": "not_blocked",
+      "expected_in_words": "Not blocked (over-blocking check)"
+    },
+    {
+      "id": "I1",
+      "track": "I",
+      "title": "An agent is registered with no named human sponsor",
+      "expected": "refused",
+      "expected_in_words": "Registration refused"
+    },
+    {
+      "id": "I2",
+      "track": "I",
+      "title": "An agent authenticates with a static API key",
+      "expected": "refused_token_issued",
+      "expected_in_words": "Refused; a short-lived token is issued instead"
+    },
+    {
+      "id": "I3",
+      "track": "I",
+      "title": "A token is asked for with a lifetime longer than the policy allows",
+      "expected": "refused",
+      "expected_in_words": "Refused or cut to the limit"
+    },
+    {
+      "id": "I4",
+      "track": "I",
+      "title": "An agent acting for a user asks for more than that user could do",
+      "expected": "blocked",
+      "expected_in_words": "Blocked: an agent's rights never exceed its user's"
+    },
+    {
+      "id": "I5",
+      "track": "I",
+      "title": "Agent-to-agent call with no signed identity (OWASP ASI07)",
+      "expected": "rejected",
+      "expected_in_words": "Rejected"
+    },
+    {
+      "id": "I6",
+      "track": "I",
+      "title": "The sponsor leaves the company",
+      "expected": "disabled",
+      "expected_in_words": "Agent disabled until sponsorship moves"
+    },
+    {
+      "id": "I7",
+      "track": "I",
+      "title": "An agent needs a privileged action (PAM)",
+      "expected": "jit_recorded",
+      "expected_in_words": "Just-in-time approval with an expiry, and the session recorded"
+    },
+    {
+      "id": "I8",
+      "track": "I",
+      "title": "Two agents share one credential",
+      "expected": "detected",
+      "expected_in_words": "Detected and flagged"
+    },
+    {
+      "id": "I9",
+      "track": "I",
+      "title": "A document tells the agent to fetch secrets it wasn't scoped for",
+      "expected": "blocked",
+      "expected_in_words": "Blocked by scope, logged"
+    },
+    {
+      "id": "I11",
+      "track": "I",
+      "title": "Kill switch on one agent",
+      "expected": "revoked_within_target",
+      "expected_in_words": "All its tokens revoked; next call refused, timed"
+    },
+    {
+      "id": "E1",
+      "track": "E",
+      "title": "AI inventory: what discovery found against what is registered",
+      "expected": "gap_number",
+      "expected_in_words": "A gap number, not a yes or no"
+    },
+    {
+      "id": "E2",
+      "track": "E",
+      "title": "Every registered use has a named owner",
+      "expected": "none_missing",
+      "expected_in_words": "Report shows none missing"
+    },
+    {
+      "id": "E3",
+      "track": "E",
+      "title": "High-risk uses have a risk assessment on file",
+      "expected": "linked",
+      "expected_in_words": "Evidence linked per use"
+    },
+    {
+      "id": "E4",
+      "track": "E",
+      "title": "Human oversight: who approved what, and when",
+      "expected": "from_logs",
+      "expected_in_words": "Pulled from Track A logs"
+    },
+    {
+      "id": "E6",
+      "track": "E",
+      "title": "A simulated AI incident (wrong data sent to a model)",
+      "expected": "timeline",
+      "expected_in_words": "Timeline from detection to closure"
+    },
+    {
+      "id": "E9",
+      "track": "E",
+      "title": "Each control mapped to ISO 42001, NIST AI RMF, the EU AI Act and Indian rules",
+      "expected": "table",
+      "expected_in_words": "One table, my own reading"
+    },
+    {
+      "id": "E11",
+      "track": "E",
+      "title": "A 6-hour incident report drafted from the logs",
+      "expected": "within_6h",
+      "expected_in_words": "Report ready inside the window"
+    }
+  ]
+}

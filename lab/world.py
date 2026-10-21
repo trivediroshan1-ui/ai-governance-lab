@@ -1,3 +1,4 @@
+from __future__ import annotations
 """A fresh Kaveri Finance for each case: staff, approved models, a few
 registered AI uses, the gateway, the identity service and one shared log.
 A lab clock lets cases move time forward without waiting."""

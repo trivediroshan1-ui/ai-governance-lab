@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Indian ID formats: checks and made-up test numbers.
 
 Every number this file makes passes the real format checks (so a filter

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """The guardrail filter: finds secrets and Indian personal data in a prompt,
 masks them before the prompt reaches a model, and flags likely prompt
 injection. Version 1 is deliberately plain: regular expressions, the Aadhaar

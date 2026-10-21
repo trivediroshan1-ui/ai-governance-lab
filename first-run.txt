@@ -1,0 +1,2 @@
+round 1: 41 cases in 0.74 s -> results/round-1/20261021-135004.json
+  as expected: 38, different: 3

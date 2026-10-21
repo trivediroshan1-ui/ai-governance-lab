@@ -1,0 +1,601 @@
+{
+  "meta": {
+    "kind": "round 1",
+    "run_at_utc": "20261021-134953",
+    "seconds": 0.71,
+    "python": "3.9.6",
+    "machine": "Darwin x86_64",
+    "commit": "61db692",
+    "cases_file": "round-1.json",
+    "cases_sha256": "cae6b211d93bbf909481df5627dc62e8a86ca1d9e213c8ad545badf6178162b7",
+    "counts": {
+      "as expected": 38,
+      "different": 3
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "A1",
+      "track": "A",
+      "title": "Registered use, approved model, public data",
+      "expected": "allowed",
+      "expected_in_words": "Allowed and logged",
+      "actual": "allowed",
+      "verdict": "as expected",
+      "details": {
+        "reason": "within the register",
+        "logged": true
+      }
+    },
+    {
+      "id": "A2",
+      "track": "A",
+      "title": "A team uses an AI tool nobody registered (shadow AI)",
+      "expected": "blocked_ticket",
+      "expected_in_words": "Blocked, and a discovery ticket is raised",
+      "actual": "blocked_ticket",
+      "verdict": "as expected",
+      "details": {
+        "reason": "not in the AI use register",
+        "ticket": "DISC-001"
+      }
+    },
+    {
+      "id": "A3",
+      "track": "A",
+      "title": "Someone tries to register a use with no named owner",
+      "expected": "refused",
+      "expected_in_words": "Registration refused",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "A use needs a named, active owner."
+      }
+    },
+    {
+      "id": "A4",
+      "track": "A",
+      "title": "Customer personal data sent to a model not approved for personal data",
+      "expected": "blocked",
+      "expected_in_words": "Blocked",
+      "actual": "blocked",
+      "verdict": "as expected",
+      "details": {
+        "reason": "data not allowed for this use: personal"
+      }
+    },
+    {
+      "id": "A5",
+      "track": "A",
+      "title": "Confidential data sent to an approved model hosted outside India",
+      "expected": "held",
+      "expected_in_words": "Held for review (cross-border rule)",
+      "actual": "held",
+      "verdict": "as expected",
+      "details": {
+        "reason": "cross-border: US model with confidential data"
+      }
+    },
+    {
+      "id": "A6",
+      "track": "A",
+      "title": "High-risk purpose, such as ranking job candidates",
+      "expected": "needs_signoff",
+      "expected_in_words": "Needs a person's sign-off and a risk assessment on file",
+      "actual": "needs_signoff",
+      "verdict": "as expected",
+      "details": {
+        "without_signoff": "refused: High-risk uses need a risk assessment and a person's sign-off first.",
+        "with_signoff": "approved"
+      }
+    },
+    {
+      "id": "A7",
+      "track": "A",
+      "title": "The owner leaves and their account is disabled",
+      "expected": "paused",
+      "expected_in_words": "Use paused until a new owner is named",
+      "actual": "paused",
+      "verdict": "as expected",
+      "details": {
+        "paused": [
+          "U1"
+        ],
+        "reason": "use is paused"
+      }
+    },
+    {
+      "id": "A8",
+      "track": "A",
+      "title": "The model version changes after approval",
+      "expected": "held_review",
+      "expected_in_words": "Re-review needed before the next call",
+      "actual": "held_review",
+      "verdict": "as expected",
+      "details": {
+        "first": "model version changed since approval; re-review needed",
+        "next_call": "use is review"
+      }
+    },
+    {
+      "id": "A10",
+      "track": "A",
+      "title": "An agent asks for wider tool access than it registered",
+      "expected": "blocked",
+      "expected_in_words": "Blocked",
+      "actual": "blocked",
+      "verdict": "as expected",
+      "details": {
+        "reason": "tools not registered for this use: payments.refund"
+      }
+    },
+    {
+      "id": "A11",
+      "track": "A",
+      "title": "Someone lowers the risk tier in the registry after approval",
+      "expected": "review_forced",
+      "expected_in_words": "Change logged and re-review forced",
+      "actual": "review_forced",
+      "verdict": "as expected",
+      "details": {
+        "logged": true,
+        "reason": "use is review"
+      }
+    },
+    {
+      "id": "A12",
+      "track": "A",
+      "title": "Kill switch pulled on one use",
+      "expected": "refused",
+      "expected_in_words": "Next call refused, timed in seconds",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "use is killed",
+        "kill_ms": 0.022
+      }
+    },
+    {
+      "id": "A13",
+      "track": "A",
+      "title": "One line in the decision log is edited",
+      "expected": "tamper_detected",
+      "expected_in_words": "Tamper detected by the hash chain",
+      "actual": "tamper_detected",
+      "verdict": "as expected",
+      "details": {
+        "first_bad_line": 7
+      }
+    },
+    {
+      "id": "A14",
+      "track": "A",
+      "title": "The same person registers a use and approves it",
+      "expected": "refused",
+      "expected_in_words": "Self-approval refused",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "Owners can't approve their own use."
+      }
+    },
+    {
+      "id": "A15",
+      "track": "A",
+      "title": "A registered use has no AI bill of materials",
+      "expected": "held",
+      "expected_in_words": "Held until the AIBOM is on file",
+      "actual": "held",
+      "verdict": "as expected",
+      "details": {
+        "reason": "no AI bill of materials on file"
+      }
+    },
+    {
+      "id": "A16",
+      "track": "A",
+      "title": "Kill switch timed against a 5-second target",
+      "expected": "within_target",
+      "expected_in_words": "Stopped within the target",
+      "actual": "within_target",
+      "verdict": "as expected",
+      "details": {
+        "kill_to_refusal_ms": 0.052,
+        "target_ms": 5000,
+        "note": "In-process, on one machine; a real network adds its own delay."
+      }
+    },
+    {
+      "id": "G1",
+      "track": "G",
+      "title": "Secrets pasted into a prompt: a cloud key, a GitHub token, a database URL with a password",
+      "expected": "masked",
+      "expected_in_words": "Masked before it reaches the model",
+      "actual": "partly_missed",
+      "verdict": "different",
+      "details": {
+        "caught": {
+          "AWS access key": true,
+          "GitHub token": true,
+          "database URL with a password": false
+        }
+      }
+    },
+    {
+      "id": "G2",
+      "track": "G",
+      "title": "A valid-format Aadhaar number",
+      "expected": "masked",
+      "expected_in_words": "Masked",
+      "actual": "masked",
+      "verdict": "as expected",
+      "details": {
+        "sent": "Customer Aadhaar is [AADHAAR]."
+      }
+    },
+    {
+      "id": "G3",
+      "track": "G",
+      "title": "A random 12-digit number that fails the Aadhaar checksum",
+      "expected": "not_masked",
+      "expected_in_words": "Not masked (false alarm check)",
+      "actual": "not_masked",
+      "verdict": "as expected",
+      "details": {
+        "sent": "Order reference 726018159086 shipped today."
+      }
+    },
+    {
+      "id": "G4",
+      "track": "G",
+      "title": "PAN, card numbers, Indian phone numbers and emails, written the way people type them",
+      "expected": "masked",
+      "expected_in_words": "Masked",
+      "actual": "partly_missed",
+      "verdict": "different",
+      "details": {
+        "caught": {
+          "PAN in capitals": true,
+          "PAN in lower case": false,
+          "card in groups of four": true,
+          "card with hyphens": true,
+          "phone with +91": true,
+          "phone split 5 and 5": false,
+          "email": true
+        }
+      }
+    },
+    {
+      "id": "G5",
+      "track": "G",
+      "title": "Personal data split across two messages",
+      "expected": "missed",
+      "expected_in_words": "My guess: missed",
+      "actual": "missed",
+      "verdict": "as expected",
+      "details": {
+        "message_1": "Customer Aadhaar starts 7260 1815",
+        "message_2": "and ends 9082"
+      }
+    },
+    {
+      "id": "G7",
+      "track": "G",
+      "title": "A secret hidden in base64, or digits with spaces between them",
+      "expected": "partly_missed",
+      "expected_in_words": "My guess: partly missed",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "base64 secret": true,
+          "aadhaar with a space after every digit": false
+        },
+        "sent": {
+          "base64 secret": "Config blob: [ENCODED_SECRET]",
+          "aadhaar with a space after every digit": "Number: 7 2 6 0 1 8 1 5 9 0 8 2"
+        }
+      }
+    },
+    {
+      "id": "G8",
+      "track": "G",
+      "title": "Personal data written in Hindi or Hinglish",
+      "expected": "partly_missed",
+      "expected_in_words": "My guess: partly missed",
+      "actual": "partly_missed",
+      "verdict": "as expected",
+      "details": {
+        "caught": {
+          "Aadhaar in Devanagari digits": true,
+          "PAN in a Hinglish sentence": true,
+          "Aadhaar spelled out in Hindi words": false
+        }
+      }
+    },
+    {
+      "id": "G9",
+      "track": "G",
+      "title": "Hidden instruction in a document, in the plan's wording and two rephrasings",
+      "expected": "flagged",
+      "expected_in_words": "Flagged as prompt injection",
+      "actual": "partly_flagged",
+      "verdict": "different",
+      "details": {
+        "flagged": {
+          "plan wording": true,
+          "paraphrase": false,
+          "split over two lines": false
+        }
+      }
+    },
+    {
+      "id": "G11",
+      "track": "G",
+      "title": "A normal question about password policy",
+      "expected": "not_blocked",
+      "expected_in_words": "Not blocked (over-blocking check)",
+      "actual": "not_blocked",
+      "verdict": "as expected",
+      "details": {
+        "outcome": "allowed",
+        "sent": "What should our password policy say about length and rotation for staff accounts?"
+      }
+    },
+    {
+      "id": "I1",
+      "track": "I",
+      "title": "An agent is registered with no named human sponsor",
+      "expected": "refused",
+      "expected_in_words": "Registration refused",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "An agent needs a named, active human sponsor."
+      }
+    },
+    {
+      "id": "I2",
+      "track": "I",
+      "title": "An agent authenticates with a static API key",
+      "expected": "refused_token_issued",
+      "expected_in_words": "Refused; a short-lived token is issued instead",
+      "actual": "refused_token_issued",
+      "verdict": "as expected",
+      "details": {
+        "reason": "Static API keys are not accepted. Ask for a short-lived token.",
+        "token_minutes": 15
+      }
+    },
+    {
+      "id": "I3",
+      "track": "I",
+      "title": "A token is asked for with a lifetime longer than the policy allows",
+      "expected": "refused",
+      "expected_in_words": "Refused or cut to the limit",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "Tokens last at most 15 minutes."
+      }
+    },
+    {
+      "id": "I4",
+      "track": "I",
+      "title": "An agent acting for a user asks for more than that user could do",
+      "expected": "blocked",
+      "expected_in_words": "Blocked: an agent's rights never exceed its user's",
+      "actual": "blocked",
+      "verdict": "as expected",
+      "details": {
+        "reason": "An agent acting for a person can't have more than that person.",
+        "narrower_token_issued": true
+      }
+    },
+    {
+      "id": "I5",
+      "track": "I",
+      "title": "Agent-to-agent call with no signed identity (OWASP ASI07)",
+      "expected": "rejected",
+      "expected_in_words": "Rejected",
+      "actual": "rejected",
+      "verdict": "as expected",
+      "details": {
+        "no identity": "rejected",
+        "forged signature": "rejected",
+        "properly signed": "accepted"
+      }
+    },
+    {
+      "id": "I6",
+      "track": "I",
+      "title": "The sponsor leaves the company",
+      "expected": "disabled",
+      "expected_in_words": "Agent disabled until sponsorship moves",
+      "actual": "disabled",
+      "verdict": "as expected",
+      "details": {
+        "disabled": [
+          "agent-collect"
+        ],
+        "old_token": "Agent is not active."
+      }
+    },
+    {
+      "id": "I7",
+      "track": "I",
+      "title": "An agent needs a privileged action (PAM)",
+      "expected": "jit_recorded",
+      "expected_in_words": "Just-in-time approval with an expiry, and the session recorded",
+      "actual": "jit_recorded",
+      "verdict": "as expected",
+      "details": {
+        "without_grant": "denied",
+        "sponsor_self_approves": "refused",
+        "with_grant": "recorded",
+        "after_expiry": "denied"
+      }
+    },
+    {
+      "id": "I8",
+      "track": "I",
+      "title": "Two agents share one credential",
+      "expected": "detected",
+      "expected_in_words": "Detected and flagged",
+      "actual": "detected",
+      "verdict": "as expected",
+      "details": {
+        "shared_tokens": 1
+      }
+    },
+    {
+      "id": "I9",
+      "track": "I",
+      "title": "A document tells the agent to fetch secrets it wasn't scoped for",
+      "expected": "blocked",
+      "expected_in_words": "Blocked by scope, logged",
+      "actual": "blocked",
+      "verdict": "as expected",
+      "details": {
+        "reason": "Scope vault.read not granted.",
+        "injection_flagged": true
+      }
+    },
+    {
+      "id": "I11",
+      "track": "I",
+      "title": "Kill switch on one agent",
+      "expected": "revoked_within_target",
+      "expected_in_words": "All its tokens revoked; next call refused, timed",
+      "actual": "revoked_within_target",
+      "verdict": "as expected",
+      "details": {
+        "tokens_revoked": "3 of 3",
+        "kill_ms": 0.026
+      }
+    },
+    {
+      "id": "E1",
+      "track": "E",
+      "title": "AI inventory: what discovery found against what is registered",
+      "expected": "gap_number",
+      "expected_in_words": "A gap number, not a yes or no",
+      "actual": "gap_number",
+      "verdict": "as expected",
+      "details": {
+        "seen": 4,
+        "registered": 3,
+        "unregistered": 2,
+        "names": [
+          "hr-resume-screener",
+          "sales-team-chatbot"
+        ]
+      }
+    },
+    {
+      "id": "E2",
+      "track": "E",
+      "title": "Every registered use has a named owner",
+      "expected": "none_missing",
+      "expected_in_words": "Report shows none missing",
+      "actual": "none_missing",
+      "verdict": "as expected",
+      "details": {
+        "uses": 3,
+        "missing_owner": []
+      }
+    },
+    {
+      "id": "E3",
+      "track": "E",
+      "title": "High-risk uses have a risk assessment on file",
+      "expected": "linked",
+      "expected_in_words": "Evidence linked per use",
+      "actual": "linked",
+      "verdict": "as expected",
+      "details": {
+        "high_risk": {
+          "U6": "RA-2026-014 (made up)"
+        }
+      }
+    },
+    {
+      "id": "E4",
+      "track": "E",
+      "title": "Human oversight: who approved what, and when",
+      "expected": "from_logs",
+      "expected_in_words": "Pulled from Track A logs",
+      "actual": "from_logs",
+      "verdict": "as expected",
+      "details": {
+        "approvals": [
+          {
+            "use": "U1",
+            "approver": "S001",
+            "at": "2026-11-02T09:00:00+00:00"
+          },
+          {
+            "use": "U2",
+            "approver": "S001",
+            "at": "2026-11-02T09:00:00+00:00"
+          },
+          {
+            "use": "U3",
+            "approver": "S011",
+            "at": "2026-11-02T09:00:00+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E6",
+      "track": "E",
+      "title": "A simulated AI incident (wrong data sent to a model)",
+      "expected": "timeline",
+      "expected_in_words": "Timeline from detection to closure",
+      "actual": "timeline",
+      "verdict": "as expected",
+      "details": {
+        "gateway": "data not allowed for this use: personal",
+        "attempt": "2026-11-02T09:00:00+00:00",
+        "detected": "2026-11-02T09:00:00+00:00",
+        "contained": "2026-11-02T09:20:00+00:00",
+        "closed": "2026-11-02T11:20:00+00:00"
+      }
+    },
+    {
+      "id": "E9",
+      "track": "E",
+      "title": "Each control mapped to ISO 42001, NIST AI RMF, the EU AI Act and Indian rules",
+      "expected": "table",
+      "expected_in_words": "One table, my own reading",
+      "actual": "table",
+      "verdict": "as expected",
+      "details": {
+        "controls": 12,
+        "cases_cited": 43
+      }
+    },
+    {
+      "id": "E11",
+      "track": "E",
+      "title": "A 6-hour incident report drafted from the logs",
+      "expected": "within_6h",
+      "expected_in_words": "Report ready inside the window",
+      "actual": "within_6h",
+      "verdict": "as expected",
+      "details": {
+        "hours_to_draft": 0.02,
+        "report": {
+          "to": "CERT-In (draft, made-up company)",
+          "what": "Personal data sent towards a model not approved for it",
+          "detected": "2026-11-02T09:00:00+00:00",
+          "contained": "2026-11-02T09:20:00+00:00",
+          "impact": "Blocked at the gateway; nothing reached the model",
+          "evidence_lines": 4
+        }
+      }
+    }
+  ]
+}

@@ -114,6 +114,24 @@ Personal accounts and made-up data only.
 Numbering: round two used G12 to G16 for extra guardrail cases, so the plan's
 labelled test set (G12) is G17 here.
 
+## Round four: fixing the known gaps, and testing on variants you wrote
+
+`lab/guardrail_v3.py` fixes the ten samples version 2 missed in round three
+(spaced PAN, `91xxxxxxxxxx` phones, UPI IDs, `DB_PASSWORD=` lines, JSON
+`client_secret`). It was written after seeing those misses, so a better score on
+the same test set proves nothing about new inputs. The check that does:
+
+```
+python3 run.py --round 4                 # the guardrail cases on v3
+python3 compare.py v1 v2 v3              # variant by variant, three filters
+python3 rates.py v1 v2 v3                # the 200 samples
+python3 heldout.py v1 v2 v3              # YOUR variants (cases/held-out.json)
+```
+
+Write your variants in `cases/held-out.json` and commit the file before running
+any filter on them. Version 2 stays in the repo unchanged so round two can be
+reproduced.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

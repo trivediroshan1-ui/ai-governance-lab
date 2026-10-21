@@ -15,7 +15,7 @@ import json
 import shlex
 import subprocess
 
-from . import guardrail, guardrail_v2
+from . import guardrail, guardrail_v2, guardrail_v3
 from .guardrail import Finding
 from .guardrail_v2 import Result
 
@@ -61,6 +61,8 @@ def get(name: str) -> Detector:
         return Detector("v1", guardrail.check)
     if name == "v2":
         return Detector("v2", guardrail_v2.check, guardrail_v2.check_session)
+    if name == "v3":
+        return Detector("v3", guardrail_v3.check, guardrail_v3.check_session)
     if name.startswith("external:"):
         return _external(name.split(":", 1)[1])
-    raise SystemExit(f"unknown detector {name!r}: use v1, v2 or external:<command>")
+    raise SystemExit(f"unknown detector {name!r}: use v1, v2, v3 or external:<command>")

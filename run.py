@@ -42,7 +42,7 @@ def main() -> int:
     ap.add_argument("--round", type=int, default=1)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="")
-    ap.add_argument("--detector", default="v2", help="round 2 only: v1, v2 or external:<command>")
+    ap.add_argument("--detector", default=None, help="rounds 2 and up; default v2, and v3 for round 4: v1, v2 or external:<command>")
     args = ap.parse_args()
 
     detector = None
@@ -50,7 +50,7 @@ def main() -> int:
         from lab import detectors
         import importlib
         CASES2 = importlib.import_module(f"lab.cases_r{args.round}").CASES
-        detector = detectors.get(args.detector)
+        detector = detectors.get(args.detector or ('v3' if args.round >= 4 else 'v2'))
     cases_path = ROOT / "cases" / f"round-{args.round}.json"
     raw = cases_path.read_bytes()
     spec = json.loads(raw)

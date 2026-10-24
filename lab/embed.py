@@ -46,8 +46,18 @@ class LocalEmbedder:
         return [list(map(float, v)) for v in self._m.encode(list(texts), normalize_embeddings=True)]
 
 
+_CACHE = {}
+
+
 def get_embedder(spec: str | None = None):
+    """One embedder per process, so a real model is loaded once and not once per case."""
     spec = spec or os.environ.get("AGL_EMBEDDER", "toy")
+    if spec not in _CACHE:
+        _CACHE[spec] = _make(spec)
+    return _CACHE[spec]
+
+
+def _make(spec: str):
     if spec == "toy":
         return ToyEmbedder()
     if spec.startswith("st:"):

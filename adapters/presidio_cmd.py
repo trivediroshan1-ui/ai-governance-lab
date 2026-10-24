@@ -24,7 +24,8 @@ from presidio_analyzer import AnalyzerEngine  # noqa: E402
 
 KIND = {"PHONE_NUMBER": "phone", "EMAIL_ADDRESS": "email", "CREDIT_CARD": "card",
         "IN_PAN": "pan", "IN_AADHAAR": "aadhaar"}
-engine = AnalyzerEngine()
+from presidio_analyzer.nlp_engine import NlpEngineProvider
+engine = AnalyzerEngine(nlp_engine=NlpEngineProvider(nlp_configuration={"nlp_engine_name": "spacy", "models": [{"lang_code": "en", "model_name": "en_core_web_sm"}]}).create_engine())
 entities = [e for e in KIND if e in set(engine.get_supported_entities())]
 print("presidio entities in use:", entities, file=sys.stderr)
 

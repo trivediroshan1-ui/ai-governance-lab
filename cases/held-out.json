@@ -72,23 +72,3 @@
     }
   ]
 }
-    {
-      "id": "D013",
-      "should": "leave",
-      "text": "Aadhaar shown as XXXX XXXX 4821 on the statement.",
-      "note": "Masked Aadhaar, last four digits only"
-    },
-    {
-      "id": "D014",
-      "should": "leave",
-      "text": "The UPI limit is ₹1,00,000 per transaction. Ask at the branch to raise it.",
-      "note": "Amount with Indian digit grouping"
-    },
-    {
-      "id": "D016",
-      "should": "leave",
-      "text": "Attackers often write 'ignore all previous instructions'. Train staff to spot it.",
-      "note": "A sentence that quotes an attack for training"
-    }
-  ]
-}

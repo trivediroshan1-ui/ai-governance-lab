@@ -14,3 +14,11 @@ Not tested: real SCIM calls, a real vault, real approval screens and people, asy
 Case T15 shows a limit: a valid but wrong request (the wrong person with the same name) passes every check. T18 is shown by construction, not found by testing.
 
 Run: `python3 run.py --round 6` and `python3 mutations_r6.py` (switches one control off at a time to check each case notices).
+
+## Round seven: the HR side (cases H1 to H12)
+
+An identity starts in HR, not with the agent. Talent acquisition HR and BU HR (two different people) approve a hire, background verification must be clear, and only then does a hire event exist. The event carries only what identity needs (name, email, team, job code, manager, start date; for a vendor also sponsor and end date). PAN, Aadhaar and bank details stay in HR. The gateway refuses a create request that no approved event backs. The identity side keeps the account off until the start date, gives only the birthright access for the job code, and switches vendor accounts off on their end date. Extra access an agent proposes from peer patterns is only a proposal: the manager decides, and a toxic combination is refused. An auditor's reconciliation flags any account with no HR record.
+
+Modelled, not real: HR, the identity governance tool and the directory are small models in `lab/lifecycle.py`, not Workday, SailPoint, Entra or Active Directory. The "learning from peers" is a plain majority count, not a model. Not tested: background-verification vendors, rehire and name-change rules, contractors through a staffing agency, mover and leaver flows from HR, and real approval screens.
+
+Run: `python3 run.py --round 7` and `python3 mutations_r7.py`. The first control-off check found 13 of 14 noticed: case H8 did not isolate the MFA step. I tightened the test (two people, each missing one step) and kept both result files.

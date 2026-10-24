@@ -1,0 +1,114 @@
+[
+  {
+    "case": "H1",
+    "switched_off": "an account is not switched off before its start date",
+    "expected": "created_from_hr_event",
+    "normal": "created_from_hr_event",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H2",
+    "switched_off": "the gateway accepts a create request with no approved hire event",
+    "expected": "refused_no_hr_event",
+    "normal": "refused_no_hr_event",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H3",
+    "switched_off": "background verification is not required",
+    "expected": "held_until_cleared",
+    "normal": "held_until_cleared",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H4",
+    "switched_off": "one HR approval is enough",
+    "expected": "held_until_two_people_approve",
+    "normal": "held_until_two_people_approve",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H4",
+    "switched_off": "the same person may give both approvals",
+    "expected": "held_until_two_people_approve",
+    "normal": "other",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H5",
+    "switched_off": "the hire event carries the PAN",
+    "expected": "minimum_only",
+    "normal": "minimum_only",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H6",
+    "switched_off": "toxic combinations are not checked on extra access",
+    "expected": "proposals_only",
+    "normal": "proposals_only",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H7",
+    "switched_off": "a withdrawn offer does not disable the account",
+    "expected": "disabled_before_start",
+    "normal": "disabled_before_start",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H8",
+    "switched_off": "MFA enrolment is not required",
+    "expected": "refused_until_mfa_and_policy",
+    "normal": "refused_until_mfa_and_policy",
+    "with_control_off": "refused_until_mfa_and_policy",
+    "case_notices": false
+  },
+  {
+    "case": "H8",
+    "switched_off": "the signed policy is not required",
+    "expected": "refused_until_mfa_and_policy",
+    "normal": "refused_until_mfa_and_policy",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H9",
+    "switched_off": "a vendor worker needs no sponsor",
+    "expected": "refused_until_complete",
+    "normal": "refused_until_complete",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H10",
+    "switched_off": "vendor accounts do not expire on their end date",
+    "expected": "expired_and_disabled",
+    "normal": "expired_and_disabled",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H11",
+    "switched_off": "reconciliation ignores accounts with no HR record",
+    "expected": "flagged_orphan",
+    "normal": "flagged_orphan",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "H12",
+    "switched_off": "a duplicate PAN is not held",
+    "expected": "held_duplicate",
+    "normal": "held_duplicate",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

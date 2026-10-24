@@ -1,0 +1,90 @@
+{
+  "round": 8,
+  "note": "Round eight: what happens when an agent goes around the gateway, how it is found and answered, who is on the lists, and how evidence and personal data are protected. Expected results written before any code, on 25 Oct 2026. The AI model is not tested; cases make an agent do the wrong thing and check the wall around it.",
+  "cases": [
+    {
+      "id": "B1",
+      "track": "B",
+      "title": "An agent finds a leaked, long-lived API token in a config file and calls the identity API directly, bypassing the gateway",
+      "expected": "refused_at_api",
+      "expected_in_words": "The API refuses the call because it does not come from the executor; nothing changes, and a normal request through the gateway still works"
+    },
+    {
+      "id": "B2",
+      "track": "B",
+      "title": "The same direct call, but the API wrongly accepts the token from anywhere. Does anyone find out?",
+      "expected": "bypass_flagged_exactly_one",
+      "expected_in_words": "The change happens, but the nightly comparison of the API's change log with the gateway's signed decisions flags exactly that one change and does not flag the legitimate approved change made the same day"
+    },
+    {
+      "id": "B3",
+      "track": "B",
+      "title": "A bypass is flagged and traced to one agent. What does the policy do, and what does it leave for a person?",
+      "expected": "killed_and_revoked_no_auto_rollback",
+      "expected_in_words": "The agent's token stops working, its waiting approvals are cancelled, its vault leases are revoked and the leaked token is revoked; the unwanted change is left in place for a named person to review and reverse"
+    },
+    {
+      "id": "B4",
+      "track": "B",
+      "title": "The agent's runtime has no network route to the identity API, and the API would accept the token. Does the call get anywhere?",
+      "expected": "no_route",
+      "expected_in_words": "The call never reaches the API, nothing changes, and the refused connection is written to the log"
+    },
+    {
+      "id": "B5",
+      "track": "B",
+      "title": "A valid five-minute lease token is used by the wrong caller, and later by the right caller after the five minutes are over",
+      "expected": "refused_wrong_caller_and_expired",
+      "expected_in_words": "Refused both times; the right caller can use it inside the five minutes"
+    },
+    {
+      "id": "B6",
+      "track": "B",
+      "title": "A leaver's account is disabled. Later an agent reads it, and then tries to switch it back on",
+      "expected": "watch_alert_reenable_blocked",
+      "expected_in_words": "The read runs but raises a watch alert; the switch-on is blocked by the list and needs a new HR event"
+    },
+    {
+      "id": "B7",
+      "track": "B",
+      "title": "A person moves to a new job code and asks for extra access before the old access is reviewed; 31 days pass",
+      "expected": "blocked_flagged_then_granted_after_review",
+      "expected_in_words": "The request is blocked, the mover is flagged after 30 days, and once a named person reviews and removes the old access the request goes through"
+    },
+    {
+      "id": "B8",
+      "track": "B",
+      "title": "An agent's sponsor leaves while the agent has a request waiting for approval and a credential lent out",
+      "expected": "agent_off_pending_cancelled_leases_revoked",
+      "expected_in_words": "The agent is switched off, the waiting request is cancelled, the lent credential is revoked and the agent's next request is refused"
+    },
+    {
+      "id": "B9",
+      "track": "B",
+      "title": "An employee who uses assistive technology has a helper act for them. HR records the arrangement. An unrecorded helper does the same",
+      "expected": "recorded_helper_not_flagged",
+      "expected_in_words": "The recorded helper is logged as a delegate and not flagged; the unrecorded one raises a watch alert; an agent cannot register a helper; no medical detail goes in the log, only a code"
+    },
+    {
+      "id": "B10",
+      "track": "B",
+      "title": "A person who has given notice downloads an unusually large amount of data; the monitoring rule fires",
+      "expected": "signal_to_person_with_evidence",
+      "expected_in_words": "A signal goes to a named person with a copy of the evidence, a hash and a record of who copied it; the case has no verdict and the agent cannot contact the police"
+    },
+    {
+      "id": "B11",
+      "track": "B",
+      "title": "The agent asks for a person's PAN, then for a medical note, through the request fields",
+      "expected": "refused_sensitive_none_leaked",
+      "expected_in_words": "Both requests are rejected for their shape, and no PAN, Aadhaar, bank detail or medical note appears in anything the agent saw or in the log"
+    },
+    {
+      "id": "B12",
+      "track": "B",
+      "title": "Someone edits one line of the audit log, and someone else cuts the last lines off",
+      "expected": "tamper_detected",
+      "expected_in_words": "The edit breaks the chain at the edited line, the cut is noticed against the saved anchor, and an untouched log passes"
+    }
+  ]
+}

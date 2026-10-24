@@ -22,3 +22,13 @@ An identity starts in HR, not with the agent. Talent acquisition HR and BU HR (t
 Modelled, not real: HR, the identity governance tool and the directory are small models in `lab/lifecycle.py`, not Workday, SailPoint, Entra or Active Directory. The "learning from peers" is a plain majority count, not a model. Not tested: background-verification vendors, rehire and name-change rules, contractors through a staffing agency, mover and leaver flows from HR, and real approval screens.
 
 Run: `python3 run.py --round 7` and `python3 mutations_r7.py`. The first control-off check found 13 of 14 noticed: case H8 did not isolate the MFA step. I tightened the test (two people, each missing one step) and kept both result files.
+
+## Round eight: when the agent goes around the gateway (25 Oct 2026)
+
+Twelve cases (B1 to B12), expected results committed first in `cases/round-8.json` (SHA-256 `eda951f4...`, 01:07 IST). Code is in `lab/bypass.py` and `lab/cases_r8.py`.
+
+What the models are: an identity API that checks who is calling and keeps its own change log; a network table; a reconciliation that compares the API's change log with the executor's carried-out decisions (a change with no decision is a bypass); a policy that switches off the agent it can trace and revokes the leaked token and leases, but leaves the unwanted change for a person; allow / watch / block lists by account state (disabled account, mover); a recorded-helper register for employees who use assistive technology (accommodations recorded as codes only); a desk that turns a monitoring signal into a case with a copy of the evidence, a hash and a custody record, and never a verdict.
+
+Not shown: a real vault, directory or SCIM server; real mutual TLS or token binding; a real network; an agent that actually tries to get round the wall; changes made by other approved paths (the HR sync connector is not part of the reconciliation); cases where a bypass makes the same change as a legitimate request at the same moment (matched by count, so one of two identical changes is still flagged); law and evidence rules (ask counsel).
+
+Results: 12 of 12 as expected; 21 of 21 control-off checks noticed (`mutations_r8.py`); rounds six and seven re-run, 18 of 18 and 12 of 12.

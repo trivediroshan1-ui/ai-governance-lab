@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 
 from lab.cases import CASES  # noqa: E402
 
-TRACKS = {"A": "AI use gateway", "G": "Guardrail filter", "I": "Agent identity and access", "E": "Audit evidence", "V": "Vendor and third-party AI access", "R": "Retrieval and document permissions", "T": "Agent instructions to an identity API", "H": "HR-driven identity lifecycle", "B": "Bypass, response, lists and evidence", "Q": "Retrieval-augmented answers", "C": "Credentials, sessions and identity edge cases", "D": "Delegation, keys and organisations", "F": "Approvals"}
+TRACKS = {"A": "AI use gateway", "G": "Guardrail filter", "I": "Agent identity and access", "E": "Audit evidence", "V": "Vendor and third-party AI access", "R": "Retrieval and document permissions", "T": "Agent instructions to an identity API", "H": "HR-driven identity lifecycle", "B": "Bypass, response, lists and evidence", "Q": "Retrieval-augmented answers", "C": "Credentials, sessions and identity edge cases", "D": "Delegation, keys and organisations", "F": "Approvals", "S": "Search by meaning"}
 
 
 def git_commit() -> str:

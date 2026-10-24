@@ -1,0 +1,98 @@
+[
+  {
+    "case": "C1",
+    "switched_off": "the check of the caller's key proof is skipped",
+    "expected": "replayed_bound_refused",
+    "normal": "replayed_bound_refused",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C3",
+    "switched_off": "the app throws away revoke signals",
+    "expected": "works_until_expiry_signal_cuts",
+    "normal": "works_until_expiry_signal_cuts",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C4",
+    "switched_off": "the app does not check who signed a signal",
+    "expected": "unsigned_ignored_signed_accepted",
+    "normal": "unsigned_ignored_signed_accepted",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C5",
+    "switched_off": "the app stops comparing event times",
+    "expected": "naive_reinstates_ordered_holds",
+    "normal": "naive_reinstates_ordered_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C6",
+    "switched_off": "the field-by-field update is replaced by a whole-record replace",
+    "expected": "put_reactivates_patch_holds",
+    "normal": "put_reactivates_patch_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C7",
+    "switched_off": "the fresh-joiner flow restores the old account",
+    "expected": "old_access_returns_fresh_holds",
+    "normal": "old_access_returns_fresh_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C8",
+    "switched_off": "matching by ID falls back to matching by name",
+    "expected": "duplicate_by_name_holds_by_id",
+    "normal": "duplicate_by_name_holds_by_id",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C9",
+    "switched_off": "the required end date is ignored",
+    "expected": "stays_active_hard_stop_holds",
+    "normal": "stays_active_hard_stop_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C10",
+    "switched_off": "break-glass use sends no alert",
+    "expected": "unnoticed_vs_alerted_and_rotated",
+    "normal": "unnoticed_vs_alerted_and_rotated",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C10",
+    "switched_off": "the break-glass password is not changed at check-in",
+    "expected": "unnoticed_vs_alerted_and_rotated",
+    "normal": "unnoticed_vs_alerted_and_rotated",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C11",
+    "switched_off": "the log keeps names inline instead of a pseudonym",
+    "expected": "edit_breaks_chain_pseudonym_holds",
+    "normal": "edit_breaks_chain_pseudonym_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "C12",
+    "switched_off": "the app does not check its own clock",
+    "expected": "slow_clock_accepts_drift_check_refuses",
+    "normal": "slow_clock_accepts_drift_check_refuses",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

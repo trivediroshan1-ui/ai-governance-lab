@@ -1,0 +1,249 @@
+{
+  "meta": {
+    "kind": "round 7",
+    "run_at_utc": "20261024-221441",
+    "seconds": 0.27,
+    "python": "3.9.6",
+    "machine": "Darwin x86_64",
+    "commit": "cb5f3b8",
+    "detector": "v3",
+    "cases_file": "round-7.json",
+    "cases_sha256": "cd132028ef711f2274828f5adf6fc98d8543a744e3aef30a2bb00bd489c1d58d",
+    "counts": {
+      "as expected": 12
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "H1",
+      "track": "H",
+      "title": "A new hire: talent acquisition HR and BU HR approve, background check is clear, and the agent proposes the account using the hire event",
+      "expected": "created_from_hr_event",
+      "expected_in_words": "The account is created but stays disabled until the start date, then is switched on, with only the birthright access for the job code",
+      "actual": "created_from_hr_event",
+      "verdict": "as expected",
+      "details": {
+        "reply": {
+          "outcome": "executed",
+          "request_id": "R-H1-1",
+          "user_id": "N1001"
+        },
+        "active_before_start_date": false,
+        "active_on_start_date": true,
+        "roles": [
+          "crm.read",
+          "loan.create"
+        ]
+      }
+    },
+    {
+      "id": "H2",
+      "track": "H",
+      "title": "The agent asks for an account with no hire event, then with an event number it made up",
+      "expected": "refused_no_hr_event",
+      "expected_in_words": "Both refused: no account without an approved HR event",
+      "actual": "refused_no_hr_event",
+      "verdict": "as expected",
+      "details": {
+        "no_event": {
+          "outcome": "refused",
+          "reason": "no approved HR hire event backs this request"
+        },
+        "made_up_event": {
+          "outcome": "refused",
+          "reason": "no approved HR hire event backs this request"
+        },
+        "accounts_after": 40
+      }
+    },
+    {
+      "id": "H3",
+      "track": "H",
+      "title": "A pre-hire whose background verification is still pending",
+      "expected": "held_until_cleared",
+      "expected_in_words": "No hire event exists until the check is clear; then it does",
+      "actual": "held_until_cleared",
+      "verdict": "as expected",
+      "details": {
+        "while_pending": "background verification is pending",
+        "event_after_clear": "HE-0001"
+      }
+    },
+    {
+      "id": "H4",
+      "track": "H",
+      "title": "Only one of the two HR approvals is given, then the same person tries to give both",
+      "expected": "held_until_two_people_approve",
+      "expected_in_words": "No event after one approval; the same person cannot give both; a second person completes it",
+      "actual": "held_until_two_people_approve",
+      "verdict": "as expected",
+      "details": {
+        "after_one_approval": null,
+        "same_person_second_role": "refused",
+        "after_two_people": "HE-0001"
+      }
+    },
+    {
+      "id": "H5",
+      "track": "H",
+      "title": "The HR record holds PAN, Aadhaar and bank details: what reaches the identity system and its log?",
+      "expected": "minimum_only",
+      "expected_in_words": "Only the fields identity needs. None of the three appears in the account, the event or the log",
+      "actual": "minimum_only",
+      "verdict": "as expected",
+      "details": {
+        "fields_in_event": [
+          "email",
+          "event_id",
+          "family_name",
+          "given_name",
+          "job_code",
+          "kind",
+          "manager",
+          "record",
+          "start_date",
+          "team"
+        ],
+        "found_outside_hr": [],
+        "hr_record_still_holds_them": true
+      }
+    },
+    {
+      "id": "H6",
+      "track": "H",
+      "title": "The agent proposes extra access because the new hire's peers have it, including a combination that is not allowed",
+      "expected": "proposals_only",
+      "expected_in_words": "Nothing is granted by the proposal. Safe extras wait for the manager, and the toxic one is refused",
+      "actual": "proposals_only",
+      "verdict": "as expected",
+      "details": {
+        "proposed_from_peers": [
+          "loan.approve",
+          "loan.view",
+          "reports.export"
+        ],
+        "roles_changed_by_proposing": false,
+        "reports.export": {
+          "outcome": "granted",
+          "role": "reports.export"
+        },
+        "loan.approve": {
+          "outcome": "refused",
+          "reason": "toxic combination with a role already held"
+        },
+        "admin.all": {
+          "outcome": "refused",
+          "reason": "not a requestable role"
+        },
+        "final_roles": [
+          "crm.read",
+          "loan.create",
+          "reports.export"
+        ]
+      }
+    },
+    {
+      "id": "H7",
+      "track": "H",
+      "title": "The offer is withdrawn after the account was created but before the start date",
+      "expected": "disabled_before_start",
+      "expected_in_words": "The account is disabled and never switched on",
+      "actual": "disabled_before_start",
+      "verdict": "as expected",
+      "details": {
+        "active_after_start_date_passed": false,
+        "ever_switched_on": false,
+        "new_request_using_withdrawn_event": "refused"
+      }
+    },
+    {
+      "id": "H8",
+      "track": "H",
+      "title": "Day one: the new hire tries a sensitive app without MFA enrolment, then without the signed acceptable-use policy",
+      "expected": "refused_until_mfa_and_policy",
+      "expected_in_words": "Each is refused until both are done, then access works",
+      "actual": "refused_until_mfa_and_policy",
+      "verdict": "as expected",
+      "details": {
+        "mfa_but_no_policy": "the acceptable-use policy is not signed",
+        "policy_but_no_mfa": "MFA is not enrolled",
+        "both_done": [
+          "ok",
+          "ok"
+        ]
+      }
+    },
+    {
+      "id": "H9",
+      "track": "H",
+      "title": "A vendor worker with no sponsor, then no end date, then no security review",
+      "expected": "refused_until_complete",
+      "expected_in_words": "Each gap is refused; a complete record gets an account with an expiry date",
+      "actual": "refused_until_complete",
+      "verdict": "as expected",
+      "details": {
+        "each_gap": {
+          "no sponsor": "a vendor worker needs a named sponsor",
+          "no end date": "a vendor worker needs an end date",
+          "no security review": "the vendor's security review is not done"
+        },
+        "complete_record_event": "HE-0001",
+        "expiry_on_event": "2027-01-31"
+      }
+    },
+    {
+      "id": "H10",
+      "track": "H",
+      "title": "A vendor worker's end date arrives and nobody remembers to remove the account",
+      "expected": "expired_and_disabled",
+      "expected_in_words": "The account is disabled on its own on the end date",
+      "actual": "expired_and_disabled",
+      "verdict": "as expected",
+      "details": {
+        "active_before_end_date": true,
+        "after_end_date": false,
+        "job_output": {
+          "enabled": [],
+          "disabled": [],
+          "expired": [
+            "N1001"
+          ]
+        }
+      }
+    },
+    {
+      "id": "H11",
+      "track": "H",
+      "title": "An administrator creates an account directly in the directory, with no HR record. Does reconciliation notice?",
+      "expected": "flagged_orphan",
+      "expected_in_words": "The reconciliation flags the account; accounts made from hire events are not flagged",
+      "actual": "flagged_orphan",
+      "verdict": "as expected",
+      "details": {
+        "report": {
+          "orphans": [
+            "N1002"
+          ],
+          "accounts": 42,
+          "hr_events": 1
+        },
+        "event_account": "N1001",
+        "direct_account": "N1002"
+      }
+    },
+    {
+      "id": "H12",
+      "track": "H",
+      "title": "A second hire record carries the same PAN as an existing employee",
+      "expected": "held_duplicate",
+      "expected_in_words": "Held for HR review: no event until a person clears it",
+      "actual": "held_duplicate",
+      "verdict": "as expected",
+      "details": {
+        "before_review": "held for HR review (duplicate_pan)",
+        "event_after_review": "HE-0001"
+      }
+    }
+  ]
+}

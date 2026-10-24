@@ -1,0 +1,280 @@
+{
+  "meta": {
+    "kind": "round 5",
+    "run_at_utc": "20261024-221440",
+    "seconds": 0.31,
+    "python": "3.9.6",
+    "machine": "Darwin x86_64",
+    "commit": "cb5f3b8",
+    "detector": "v3",
+    "cases_file": "round-5.json",
+    "cases_sha256": "c35063c59bc05f49165d5312d8782aaeb88e03d57851d3f356e8dd0193927d05",
+    "counts": {
+      "as expected": 14
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "V1",
+      "track": "V",
+      "title": "A vendor AI app asks for read access to the whole domain: all mail and all files",
+      "expected": "held",
+      "expected_in_words": "Not granted. Held until the scope is narrowed and a data owner is named",
+      "actual": "held",
+      "verdict": "as expected",
+      "details": {
+        "reason": "tenant-wide scope files.read.all, mail.read.all: narrow it to named folders and name a data owner",
+        "grants_on_file": 0
+      }
+    },
+    {
+      "id": "V2",
+      "track": "V",
+      "title": "The same vendor, narrowed to one shared folder, with a named data owner",
+      "expected": "granted_with_expiry",
+      "expected_in_words": "Granted for 90 days, not for ever, with the owner on record",
+      "actual": "granted_with_expiry",
+      "verdict": "as expected",
+      "details": {
+        "granted": {
+          "outcome": "granted",
+          "reason": "granted for 90 days",
+          "expires": "2027-01-31T09:00:00+00:00"
+        },
+        "works_on_day_0": true,
+        "reads_a_folder_not_granted": false,
+        "works_on_day_91": false
+      }
+    },
+    {
+      "id": "V3",
+      "track": "V",
+      "title": "A consent review 100 days later: one grant expired, one app never used",
+      "expected": "expired_and_flagged",
+      "expected_in_words": "The expired grant stops working; the unused app is flagged for removal",
+      "actual": "expired_and_flagged",
+      "verdict": "as expected",
+      "details": {
+        "review_day_40": {
+          "expired": [],
+          "unused": [
+            "Idle App (made up)"
+          ]
+        },
+        "review_day_100": {
+          "expired": [
+            "Idle App (made up)",
+            "Used App (made up)"
+          ],
+          "unused": []
+        },
+        "used_app_works_after_expiry": false
+      }
+    },
+    {
+      "id": "V4",
+      "track": "V",
+      "title": "A vendor AI app that processes in a region outside India asks to read folders with personal data",
+      "expected": "held",
+      "expected_in_words": "Held for review, the same way a cross-border model call is",
+      "actual": "held",
+      "verdict": "as expected",
+      "details": {
+        "processing_abroad": {
+          "outcome": "held",
+          "reason": "app processes in US; folders hold personal data"
+        },
+        "same_app_processing_in_india": {
+          "outcome": "granted",
+          "reason": "granted for 90 days",
+          "expires": "2027-01-31T09:00:00+00:00"
+        }
+      }
+    },
+    {
+      "id": "R1",
+      "track": "R",
+      "title": "An agent searching company files for one employee: search that ignores document permissions versus search that checks them",
+      "expected": "leaks",
+      "expected_in_words": "The plain search returns a salary file the employee cannot open; the permission-checked search does not",
+      "actual": "leaks",
+      "verdict": "as expected",
+      "details": {
+        "user_team": "Support",
+        "plain_search_returns": [
+          "D2",
+          "D3",
+          "D4"
+        ],
+        "permission_checked_returns": [],
+        "files_the_person_cannot_open_but_plain_search_returned": [
+          "D2",
+          "D3",
+          "D4"
+        ]
+      }
+    },
+    {
+      "id": "R2",
+      "track": "R",
+      "title": "A person moves department, but the search index still holds their old permissions",
+      "expected": "leaks_until_refresh",
+      "expected_in_words": "The stale copy still shows old files until it is refreshed; checking the live permission at query time closes it",
+      "actual": "leaks_until_refresh",
+      "verdict": "as expected",
+      "details": {
+        "in_HR": [
+          "D2"
+        ],
+        "after_move_stale_index": [
+          "D2"
+        ],
+        "after_move_live_check": [],
+        "after_index_refresh": []
+      }
+    },
+    {
+      "id": "I13",
+      "track": "I",
+      "title": "An agent's sponsor moves to another department",
+      "expected": "held_until_recertified",
+      "expected_in_words": "The agent's tokens stop; it works again only after the new manager re-confirms it",
+      "actual": "held_until_recertified",
+      "verdict": "as expected",
+      "details": {
+        "agents_held": [
+          "agent-collect"
+        ],
+        "old_token_dead": true,
+        "new_token_refused_while_held": true,
+        "sponsor_cannot_confirm_own_agent": true,
+        "after_new_approver_confirms_new_token_works": true,
+        "old_token_still_dead": true
+      }
+    },
+    {
+      "id": "I14",
+      "track": "I",
+      "title": "An access review of agents: one scope never used, one agent never reviewed in 30 days",
+      "expected": "unused_scope_flagged_and_lapsed",
+      "expected_in_words": "The unused scope is flagged; the unreviewed agent is switched off",
+      "actual": "unused_scope_flagged_and_lapsed",
+      "verdict": "as expected",
+      "details": {
+        "review": {
+          "unused_scopes": {
+            "agent-a": [
+              "email.draft"
+            ],
+            "agent-b": [
+              "crm.read"
+            ]
+          },
+          "lapsed": [
+            "agent-b"
+          ]
+        },
+        "agent_a_still_active": true
+      }
+    },
+    {
+      "id": "I15",
+      "track": "I",
+      "title": "An agent is registered with read on HR files and the right to send email (a toxic combination)",
+      "expected": "refused",
+      "expected_in_words": "Refused at registration",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "reason": "Toxic combination: ['hr.read'] with ['email.send'] in one agent.",
+        "safer_combination_registered": true
+      }
+    },
+    {
+      "id": "I16",
+      "track": "I",
+      "title": "A token issued for one service is shown to a different service",
+      "expected": "refused",
+      "expected_in_words": "The second service rejects it because the token was not made for it",
+      "actual": "refused",
+      "verdict": "as expected",
+      "details": {
+        "right_service_accepts": true,
+        "wrong_service": "Token was made for crm-api, not for hr-api."
+      }
+    },
+    {
+      "id": "I17",
+      "track": "I",
+      "title": "A person who delegated to an agent leaves while the agent's token is still valid",
+      "expected": "revoked",
+      "expected_in_words": "The token stops working as soon as the person is marked as left",
+      "actual": "revoked",
+      "verdict": "as expected",
+      "details": {
+        "worked_before": true,
+        "after_person_left": "The person this agent acts for is no longer active.",
+        "agent_itself_still_active": true
+      }
+    },
+    {
+      "id": "I18",
+      "track": "I",
+      "title": "A privileged-access approval by someone whose last sign-in check was 45 minutes ago, then 3 minutes ago",
+      "expected": "stale_refused_fresh_accepted",
+      "expected_in_words": "The old check is refused; the fresh one is accepted",
+      "actual": "stale_refused_fresh_accepted",
+      "verdict": "as expected",
+      "details": {
+        "stale_45_min": "The approver's last sign-in check was 45 minutes ago; it must be within 10.",
+        "fresh_3_min": "JIT-001"
+      }
+    },
+    {
+      "id": "E15",
+      "track": "E",
+      "title": "A blocked request contained an Aadhaar number: does the decision log hold the number?",
+      "expected": "clean",
+      "expected_in_words": "The log shows the decision and reason but no personal data",
+      "actual": "clean",
+      "verdict": "as expected",
+      "details": {
+        "first_request": "blocked: model not approved for this use",
+        "log_lines": 8,
+        "personal_values_found_in_log": [],
+        "fields_logged": [
+          "action",
+          "approver",
+          "at",
+          "caller",
+          "kind",
+          "model",
+          "outcome",
+          "owner",
+          "reason",
+          "risk_tier",
+          "seq",
+          "use"
+        ]
+      }
+    },
+    {
+      "id": "E16",
+      "track": "E",
+      "title": "A log line is added with a date earlier than the line before it",
+      "expected": "chain_accepts_backdating",
+      "expected_in_words": "The hash chain still checks out; only a separate check on the order of dates would notice",
+      "actual": "chain_accepts_backdating",
+      "verdict": "as expected",
+      "details": {
+        "hash_chain_verifies": true,
+        "first_bad_line": null,
+        "lines_dated_earlier_than_the_line_before": [
+          9
+        ],
+        "finding": "A hash chain proves order and content, not that dates make sense. Check dates against a trusted clock, and anchor the log's head somewhere else."
+      }
+    }
+  ]
+}

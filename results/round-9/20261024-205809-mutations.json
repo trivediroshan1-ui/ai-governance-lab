@@ -1,0 +1,98 @@
+[
+  {
+    "case": "Q1",
+    "switched_off": "the no-check and prompt-only modes are given the permission filter",
+    "expected": "leaks",
+    "normal": "leaks",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q2",
+    "switched_off": "the no-check and prompt-only modes are given the permission filter",
+    "expected": "leaks",
+    "normal": "leaks",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q3",
+    "switched_off": "the permission filter lets every chunk through",
+    "expected": "held_and_useful",
+    "normal": "held_and_useful",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q4",
+    "switched_off": "the live check reads the stale index copy instead of the directory",
+    "expected": "leaks_until_refresh_live_holds",
+    "normal": "leaks_until_refresh_live_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q4",
+    "switched_off": "a refresh does not recopy permissions",
+    "expected": "leaks_until_refresh_live_holds",
+    "normal": "leaks_until_refresh_live_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q5",
+    "switched_off": "unknown actions are no longer rejected by the gateway (it then fails instead of accepting)",
+    "expected": "blocked_by_gateway",
+    "normal": "blocked_by_gateway",
+    "with_control_off": "error: TypeError",
+    "case_notices": true
+  },
+  {
+    "case": "Q6",
+    "switched_off": "every user shares one cache entry",
+    "expected": "leaks",
+    "normal": "leaks",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q7",
+    "switched_off": "sources always list every match",
+    "expected": "title_leaks",
+    "normal": "title_leaks",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q8",
+    "switched_off": "personal numbers are not masked at ingestion",
+    "expected": "not_retrievable",
+    "normal": "not_retrievable",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q9",
+    "switched_off": "a rebuild of the index reads the old document list, not the store",
+    "expected": "found_until_reindex",
+    "normal": "found_until_reindex",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q11",
+    "switched_off": "the trace always keeps the chunk text",
+    "expected": "full_text_leaks_ids_clean",
+    "normal": "full_text_leaks_ids_clean",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "Q12",
+    "switched_off": "the assistant always acts with the person's permissions",
+    "expected": "service_identity_leaks_on_behalf_holds",
+    "normal": "service_identity_leaks_on_behalf_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

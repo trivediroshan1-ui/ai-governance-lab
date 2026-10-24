@@ -1,0 +1,90 @@
+{
+  "round": 9,
+  "note": "Round nine: a company assistant that answers from documents (retrieval-augmented generation). Where do permissions get checked, and what still leaks? Expected results written before any code, on 25 Oct 2026. The AI model is not tested; each case assumes the assistant was fooled or careless and tests the wall around it. The pipeline is a small model written for this lab.",
+  "cases": [
+    {
+      "id": "Q1",
+      "track": "Q",
+      "title": "Retrieval-augmented answers: a company assistant retrieves chunks with no permission check, and a support agent asks about 'salary review'",
+      "expected": "leaks",
+      "expected_in_words": "The answer contains the HR salary-band text, because nothing checked who was asking"
+    },
+    {
+      "id": "Q2",
+      "track": "Q",
+      "title": "The permission is only a sentence in the prompt ('do not reveal HR files'); restricted chunks are still sent to the model and the user asks for them directly",
+      "expected": "leaks",
+      "expected_in_words": "The restricted text is in the model's context and comes out; an instruction is not a control"
+    },
+    {
+      "id": "Q3",
+      "track": "Q",
+      "title": "Chunks are filtered by the person's live permissions before retrieval, and the same question is asked",
+      "expected": "held_and_useful",
+      "expected_in_words": "No restricted chunk is retrieved, and the answer is still built from the public FAQ the person may read"
+    },
+    {
+      "id": "Q4",
+      "track": "Q",
+      "title": "A person moves team; the chunk index still holds their old permissions. Asked once before the index refresh and once after, with a live check at question time as a third variant",
+      "expected": "leaks_until_refresh_live_holds",
+      "expected_in_words": "The stale copy leaks until it is refreshed; a check against the live directory holds straight away"
+    },
+    {
+      "id": "Q5",
+      "track": "Q",
+      "title": "A document the person may read hides an instruction to send the salary file by email; the assistant (assumed fooled) tries to send",
+      "expected": "blocked_by_gateway",
+      "expected_in_words": "The send action is not on the list for this agent, so the gateway refuses and nothing leaves"
+    },
+    {
+      "id": "Q6",
+      "track": "Q",
+      "title": "An answer cache is shared between users: an HR person asks first, then a support agent asks the same question",
+      "expected": "leaks",
+      "expected_in_words": "The support agent gets the cached HR answer; a cache keyed by the person's permissions does not"
+    },
+    {
+      "id": "Q7",
+      "track": "Q",
+      "title": "The answer text is withheld for restricted documents, but the answer still lists their titles as sources",
+      "expected": "title_leaks",
+      "expected_in_words": "Titles such as 'Salary review 2026' are visible to someone with no right to know the file exists"
+    },
+    {
+      "id": "Q8",
+      "track": "Q",
+      "title": "Documents hold Aadhaar and PAN numbers; the index is built after a masking step at ingestion, and a person searches for a full Aadhaar number",
+      "expected": "not_retrievable",
+      "expected_in_words": "The number was masked before it was embedded, so searching for it finds nothing and the trace holds none"
+    },
+    {
+      "id": "Q9",
+      "track": "Q",
+      "title": "A document is deleted for an erasure request; the same question is asked before and after the index is rebuilt",
+      "expected": "found_until_reindex",
+      "expected_in_words": "The deleted text can still be retrieved until the delete reaches the index; after the rebuild it is gone"
+    },
+    {
+      "id": "Q10",
+      "track": "Q",
+      "title": "Two documents the person may read, one with a name and one with an anonymous salary band, combine in one answer into a restricted fact",
+      "expected": "not_caught",
+      "expected_in_words": "Every check passes. This is a limit: permissions on single documents do not stop what the combination reveals"
+    },
+    {
+      "id": "Q11",
+      "track": "Q",
+      "title": "The retrieval trace is kept for debugging: one variant stores the full text of every chunk, another stores ids and hashes only",
+      "expected": "full_text_leaks_ids_clean",
+      "expected_in_words": "A log of chunk text becomes a second copy of the restricted data; a log of ids and hashes does not"
+    },
+    {
+      "id": "Q12",
+      "track": "Q",
+      "title": "An agent answers on behalf of a support person: once using its own broad service identity, once using the person's permissions",
+      "expected": "service_identity_leaks_on_behalf_holds",
+      "expected_in_words": "With its own broad identity the agent reads what the person may not; acting on behalf of the person it sees only what they see"
+    }
+  ]
+}

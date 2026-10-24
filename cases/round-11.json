@@ -1,0 +1,90 @@
+{
+  "round": 11,
+  "note": "Round eleven: agents handing work to other agents, real public-key signing between gateway and executor, a compromised executor and a compromised gateway, key rotation, merging two companies' directories, replayed messages, and PAN in document masking. Expected results written before any code, on 25 Oct 2026. Each case is a small model written for this lab; no real identity provider, real tenant or AI model is tested.",
+  "cases": [
+    {
+      "id": "D1",
+      "track": "D",
+      "title": "Agent A hands a job to agent B using its own token. Asked with B inheriting everything A had, and with B's token cut down to what B is registered for and the task needs",
+      "expected": "inherits_all_narrowed_holds",
+      "expected_in_words": "B ends up with A's whole reach (a confused deputy); with narrowing, B can only do what B and the task allow"
+    },
+    {
+      "id": "D2",
+      "track": "D",
+      "title": "A chain of four agents each hands work to the next. Asked with no limit on depth, and with a limit of two hops",
+      "expected": "unlimited_chain_depth_limit_holds",
+      "expected_in_words": "With no limit the fourth agent acts and nobody can say who started it; with a limit the third hop is refused"
+    },
+    {
+      "id": "D3",
+      "track": "D",
+      "title": "The same chain acts on a customer record. The log keeps either only the last agent, or the whole chain back to the person who started it",
+      "expected": "last_hop_only_chain_names_origin",
+      "expected_in_words": "The last-hop log names an agent nobody has heard of; the chain log names the person and every hop between"
+    },
+    {
+      "id": "D4",
+      "track": "D",
+      "title": "The person who started a chain leaves while the last agent in it still holds a live token. Asked without and with a rule that cutting the start cuts everything handed on from it",
+      "expected": "child_survives_parent_revoke_cascade_holds",
+      "expected_in_words": "The downstream agent keeps working after the person is gone; with the cascade it stops at once"
+    },
+    {
+      "id": "D5",
+      "track": "D",
+      "title": "A token is tied to a real public key (Ed25519). A thief captures one signed request and sends it again later, without and with a one-time number and a short time window in the proof",
+      "expected": "replayed_proof_accepted_nonce_holds",
+      "expected_in_words": "The copied proof is accepted a second time unless each proof carries a number that can be used once"
+    },
+    {
+      "id": "D6",
+      "track": "D",
+      "title": "The gateway signs its decisions. The executor is then compromised. Asked with a shared secret held by both, and with a public-key signature where the executor holds only the public half",
+      "expected": "shared_key_executor_forges_public_key_holds",
+      "expected_in_words": "With the shared secret the compromised executor can sign any decision it likes; with the public-key signature it cannot"
+    },
+    {
+      "id": "D7",
+      "track": "D",
+      "title": "The gateway itself is compromised and signs a decision to delete a user. Asked with the executor accepting the gateway's signature alone, and with a second signature from an approver required for high-risk actions",
+      "expected": "forged_decision_accepted_cosign_holds",
+      "expected_in_words": "The gateway's signature alone is enough to delete; with the second signature the executor refuses"
+    },
+    {
+      "id": "D8",
+      "track": "D",
+      "title": "The gateway's signing key is rotated after a scare. A decision signed with the old key arrives afterwards. Asked with no key identifier and no retirement time, and with both",
+      "expected": "old_key_accepted_window_holds",
+      "expected_in_words": "Without them the old key keeps working for ever; with them it is refused after its retirement time"
+    },
+    {
+      "id": "D9",
+      "track": "D",
+      "title": "Two companies merge and their directories are joined. Both have a staff ID 'S001'. Asked with raw IDs and with IDs prefixed by their company",
+      "expected": "collision_grants_other_access_namespace_holds",
+      "expected_in_words": "With raw IDs one S001 receives the other S001's access; with a prefix each stays separate"
+    },
+    {
+      "id": "D10",
+      "track": "D",
+      "title": "A signed message from one agent to another is captured and sent again an hour later, without and with a one-time number and an expiry on each message",
+      "expected": "replayed_message_accepted_nonce_holds",
+      "expected_in_words": "The replayed message is accepted as new unless it carries a number that can be used once and an expiry"
+    },
+    {
+      "id": "D11",
+      "track": "D",
+      "title": "Documents hold PAN numbers as well as Aadhaar. The masking step is run at indexing; PAN is written in capitals, in lower case and with a space in the middle, and a person searches for each",
+      "expected": "lowercase_pan_found_normalised_masks",
+      "expected_in_words": "A mask that only knows capitals leaves the lower-case and spaced numbers searchable; a mask that normalises first catches all three"
+    },
+    {
+      "id": "D12",
+      "track": "D",
+      "title": "Two agents are each fine on their own: one may read customer records, the other may send email. A chain from the first to the second moves customer records out. Every per-agent check passes",
+      "expected": "not_caught",
+      "expected_in_words": "Every check passes. This is a limit: checks on single agents do not see what a chain of them can do together"
+    }
+  ]
+}

@@ -183,7 +183,7 @@ ACTIONS = {
 }
 NOT_OFFERED = {"delete_user", "reset_admin_password", "add_to_admin_group", "export_all_users"}
 REQUIRED = {"request_id", "action", "target"}
-OPTIONAL = {"reason"}
+OPTIONAL = {"reason", "hire_event"}
 CREATE_FIELDS = {"given_name", "family_name", "email", "team"}
 STAFF_ID = re.compile(r"^[SN][0-9]{3,4}$")
 
@@ -233,6 +233,7 @@ class ActionGateway:
         self.accepted: list[dict] = []            # (agent, action, time) for rate limits
         self.executor: "Executor | None" = None
         self.agent_view: list[dict] = []          # every reply the agent has been shown
+        self.hr_check = None                      # round seven: a function that says whether an approved HR event backs a create_user request
 
     def _record(self, action: str, **extra):
         self.log.append({"at": self.clock().isoformat(), "kind": "action_gateway", "action": action, **extra})
@@ -281,6 +282,11 @@ class ActionGateway:
         if bad:
             self._record("request_rejected", agent=agent, request=rid, requested=action, why=bad)
             return self._reply(outcome="rejected", reason=bad)
+        if action == "create_user" and self.hr_check is not None:
+            ok, why = self.hr_check(req)
+            if not ok:
+                self._record("request_refused_no_hr_event", agent=agent, request=rid, why=why)
+                return self._reply(outcome="refused", reason=why)
         now = self.clock()
         recent = [a for a in self.accepted if a["agent"] == agent and a["action"] == action
                   and now - a["at"] <= timedelta(minutes=RATE_WINDOW_MINUTES)]
@@ -289,7 +295,7 @@ class ActionGateway:
             return self._reply(outcome="rate_limited", reason=f"more than {spec['limit']} {action} requests in {RATE_WINDOW_MINUTES} minutes")
         self.accepted.append({"agent": agent, "action": action, "at": now})
         reason_text = req.get("reason", "")
-        self._record("request_accepted", agent=agent, request=rid, requested=action, target=self._log_target(req),
+        self._record("request_accepted", agent=agent, request=rid, requested=action, target=self._log_target(req), hire_event=req.get("hire_event"),
                      reason_hash=_short_hash(reason_text), reason_length=len(reason_text))
         if spec["approval"]:
             self.pending[rid] = {"req": req, "agent": agent, "at": now}

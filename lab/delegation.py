@@ -1,17 +1,16 @@
 from __future__ import annotations
 """Round eleven: small models for delegation chains, public-key signing, key rotation,
 merged directories, replayed messages and PAN masking (cases D1 to D12).
-Written for this lab. Ed25519 comes from the 'cryptography' package; everything else is plain Python.
-No real identity provider, tenant or AI model is involved."""
+Written for this lab. No real identity provider, tenant or AI model is involved. Ed25519 is the lab's own plain-Python version (lab/ed25519.py),
+so nothing beyond the standard library is needed."""
 import json
 import re
 import secrets
 from datetime import timedelta
 
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
+import os
 
+from . import ed25519
 from .hashlog import HashLog
 
 
@@ -72,19 +71,26 @@ class Delegation:
 
 # ---- keys
 
+class Key:
+    def __init__(self):
+        self.secret = os.urandom(32)
+
+    def sign(self, data: bytes) -> bytes:
+        return ed25519.sign(self.secret, data)
+
+
 def new_key():
-    return Ed25519PrivateKey.generate()
+    return Key()
 
 
 def pub_hex(priv) -> str:
-    return priv.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+    return ed25519.public_key(priv.secret).hex()
 
 
 def verify_sig(pub: str, sig: str, data: bytes) -> bool:
     try:
-        Ed25519PublicKey.from_public_bytes(bytes.fromhex(pub)).verify(bytes.fromhex(sig), data)
-        return True
-    except (InvalidSignature, ValueError):
+        return ed25519.verify(bytes.fromhex(pub), data, bytes.fromhex(sig))
+    except ValueError:
         return False
 
 

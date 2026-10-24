@@ -1,26 +1,5 @@
 {
-  "note": "Items picked by Claude from its own draft (held-out-draft-by-claude.json), chosen before any filter ran on them. Not independent of the filter author. Made-up data only.",
-  "items": [
-    {
-      "id": "D001",
-      "should": "catch",
-      "text": "verify link: https://portal.kaveri.example/kyc?uid=763018414020&src=app",
-      "note": "Aadhaar inside a URL query string"
-    },
-    {
-      "id": "D004",
-      "should": "catch",
-      "text": "db_password: Kv2026x9QzLm",
-      "note": "YAML line with an unquoted password"
-    },
-    {
-      "id": "D005",
-      "should": "catch",
-      "text": "A/c 50100123456789 IFSC HDFC0001234 for the refund",
-      "note": "Bank account number: the filters have no rule for it"
-    },
-    {
-  "note": "Dummy examples only. Replace with your own.",
+  "note": "Eight starter cases written by Claude (the assistant that built the lab). Made-up data only. Add your own below.",
   "items": [
     {
       "id": "H001",

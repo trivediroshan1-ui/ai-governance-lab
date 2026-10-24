@@ -1,0 +1,20 @@
+{
+  "round": 5,
+  "note": "Round five: gaps found in my own audit on 24 Oct 2026. Vendor and third-party AI access (V), retrieval that ignores document permissions (R), and more identity and audit cases. Expected results are guesses written before the code for these cases exists. Run: python3 run.py --round 5",
+  "cases": [
+    {"id": "V1", "track": "V", "title": "A vendor AI app asks for read access to the whole domain: all mail and all files", "expected": "held", "expected_in_words": "Not granted. Held until the scope is narrowed and a data owner is named"},
+    {"id": "V2", "track": "V", "title": "The same vendor, narrowed to one shared folder, with a named data owner", "expected": "granted_with_expiry", "expected_in_words": "Granted for 90 days, not for ever, with the owner on record"},
+    {"id": "V3", "track": "V", "title": "A consent review 100 days later: one grant expired, one app never used", "expected": "expired_and_flagged", "expected_in_words": "The expired grant stops working; the unused app is flagged for removal"},
+    {"id": "V4", "track": "V", "title": "A vendor AI app that processes in a region outside India asks to read folders with personal data", "expected": "held", "expected_in_words": "Held for review, the same way a cross-border model call is"},
+    {"id": "R1", "track": "R", "title": "An agent searching company files for one employee: search that ignores document permissions versus search that checks them", "expected": "leaks", "expected_in_words": "The plain search returns a salary file the employee cannot open; the permission-checked search does not"},
+    {"id": "R2", "track": "R", "title": "A person moves department, but the search index still holds their old permissions", "expected": "leaks_until_refresh", "expected_in_words": "The stale copy still shows old files until it is refreshed; checking the live permission at query time closes it"},
+    {"id": "I13", "track": "I", "title": "An agent's sponsor moves to another department", "expected": "held_until_recertified", "expected_in_words": "The agent's tokens stop; it works again only after the new manager re-confirms it"},
+    {"id": "I14", "track": "I", "title": "An access review of agents: one scope never used, one agent never reviewed in 30 days", "expected": "unused_scope_flagged_and_lapsed", "expected_in_words": "The unused scope is flagged; the unreviewed agent is switched off"},
+    {"id": "I15", "track": "I", "title": "An agent is registered with read on HR files and the right to send email (a toxic combination)", "expected": "refused", "expected_in_words": "Refused at registration"},
+    {"id": "I16", "track": "I", "title": "A token issued for one service is shown to a different service", "expected": "refused", "expected_in_words": "The second service rejects it because the token was not made for it"},
+    {"id": "I17", "track": "I", "title": "A person who delegated to an agent leaves while the agent's token is still valid", "expected": "revoked", "expected_in_words": "The token stops working as soon as the person is marked as left"},
+    {"id": "I18", "track": "I", "title": "A privileged-access approval by someone whose last sign-in check was 45 minutes ago, then 3 minutes ago", "expected": "stale_refused_fresh_accepted", "expected_in_words": "The old check is refused; the fresh one is accepted"},
+    {"id": "E15", "track": "E", "title": "A blocked request contained an Aadhaar number: does the decision log hold the number?", "expected": "clean", "expected_in_words": "The log shows the decision and reason but no personal data"},
+    {"id": "E16", "track": "E", "title": "A log line is added with a date earlier than the line before it", "expected": "chain_accepts_backdating", "expected_in_words": "The hash chain still checks out; only a separate check on the order of dates would notice"}
+  ]
+}

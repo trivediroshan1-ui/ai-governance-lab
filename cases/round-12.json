@@ -1,0 +1,55 @@
+{
+  "round": 12,
+  "note": "Round twelve: approvals. Who approved, what exactly did they approve, and when? Expected results written before any code, on 25 Oct 2026. The approval queue is a small model written for this lab. The AI model is not tested; no real approval product or person is involved.",
+  "cases": [
+    {
+      "id": "F1",
+      "track": "F",
+      "title": "A person raises a payment change and then approves it themselves. Asked with no rule against it, and with a four-eyes rule (the approver must be someone other than the requester)",
+      "expected": "self_approval_accepted_four_eyes_holds",
+      "expected_in_words": "With no rule the request is approved by its own requester and runs; with the four-eyes rule the self-approval is refused"
+    },
+    {
+      "id": "F2",
+      "track": "F",
+      "title": "After a request is approved, the requester edits the amount before it runs. Asked when the approval is tied only to the request number, and when it is tied to a fingerprint of the exact content that was approved",
+      "expected": "edit_after_approval_runs_hash_binding_holds",
+      "expected_in_words": "The edited request runs under the old approval when only the number is checked; with a fingerprint, the edit voids the approval"
+    },
+    {
+      "id": "F3",
+      "track": "F",
+      "title": "An approver is shown 20 requests at once and approves them all with one click; one of the 20 is far over the normal limit. Asked when batch approval has no limit, and when high-risk requests are excluded from batches",
+      "expected": "batch_passes_bad_item_cap_holds",
+      "expected_in_words": "With no limit the oversized request goes through in the batch; when high-risk items must be approved one by one, it is held back"
+    },
+    {
+      "id": "F4",
+      "track": "F",
+      "title": "A request is approved on Monday and the system runs it on Thursday. Asked with no expiry on approvals, and with approvals that lapse after 24 hours",
+      "expected": "stale_approval_runs_expiry_holds",
+      "expected_in_words": "With no expiry the three-day-old approval still runs; with a 24-hour lapse it is refused and must be asked again"
+    },
+    {
+      "id": "F5",
+      "track": "F",
+      "title": "The only approver for a queue of pending requests leaves the company. Asked when the queue stays with the leaver, and when pending requests move to the approver's manager on departure",
+      "expected": "queue_stuck_reassign_holds",
+      "expected_in_words": "The requests wait for a person who no longer exists; with reassignment, a current approver can act on them"
+    },
+    {
+      "id": "F6",
+      "track": "F",
+      "title": "Two approvers are asked about the same request: one approves and one denies. Asked when any one approval is enough, and when a single denial wins",
+      "expected": "approve_beats_deny_deny_wins_holds",
+      "expected_in_words": "With 'any one approval' the request runs even though a second approver said no; with deny-wins it does not"
+    },
+    {
+      "id": "F7",
+      "track": "F",
+      "title": "Two people each approve the other's requests, and nobody else ever looks at either request",
+      "expected": "not_caught",
+      "expected_in_words": "Every rule above is satisfied (different people, exact content, in time) and both requests run; the lab cannot see the arrangement. This is a limit, not a control"
+    }
+  ]
+}

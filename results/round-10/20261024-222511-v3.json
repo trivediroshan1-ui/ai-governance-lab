@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "kind": "round 10",
+    "run_at_utc": "20261024-222511",
+    "seconds": 0.1,
+    "python": "3.11.15",
+    "machine": "Linux x86_64",
+    "commit": "c0374d0",
+    "detector": "v3",
+    "cases_file": "round-10.json",
+    "cases_sha256": "ad73f73f85b0a85dacdd1482a77104dcacc15499edb1b3d767ba5d5136e77cbc",
+    "counts": {
+      "as expected": 12
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "C1",
+      "track": "C",
+      "title": "Bearer token copied from a log file and replayed from another machine. Asked with a plain bearer token and with a token tied to the caller's own key",
+      "expected": "replayed_bound_refused",
+      "expected_in_words": "The plain token works for the thief; the key-tied token is refused because the thief cannot sign the request",
+      "actual": "replayed_bound_refused",
+      "verdict": "as expected",
+      "details": {
+        "plain_token_works_for_thief": true,
+        "bound_token_works_for_thief": false,
+        "bound_token_works_for_owner": true
+      }
+    },
+    {
+      "id": "C2",
+      "track": "C",
+      "title": "Same, but the thief has taken the caller's key as well as the token (the whole host is compromised)",
+      "expected": "not_caught",
+      "expected_in_words": "The tied token is accepted. This is a limit: tying a token to a key does not help when the key is taken too",
+      "actual": "not_caught",
+      "verdict": "as expected",
+      "details": {
+        "thief_with_token_and_key_accepted": true,
+        "limit": "a token tied to a key protects only while the key stays with its owner"
+      }
+    },
+    {
+      "id": "C3",
+      "track": "C",
+      "title": "A person is terminated while their session token has 50 minutes left. Asked with expiry only, and with a revoke signal sent to the app straight away",
+      "expected": "works_until_expiry_signal_cuts",
+      "expected_in_words": "Without the signal the token keeps working until it expires; with the signal the app refuses at once",
+      "actual": "works_until_expiry_signal_cuts",
+      "verdict": "as expected",
+      "details": {
+        "still_works_after_termination_expiry_only": true,
+        "still_works_after_termination_with_signal": false
+      }
+    },
+    {
+      "id": "C4",
+      "track": "C",
+      "title": "A revoke signal arrives that is not signed, then one that is signed by the identity provider",
+      "expected": "unsigned_ignored_signed_accepted",
+      "expected_in_words": "The unsigned message changes nothing (anyone could send it); the signed one cuts the session",
+      "actual": "unsigned_ignored_signed_accepted",
+      "verdict": "as expected",
+      "details": {
+        "unsigned": "refused_unsigned",
+        "works_after_unsigned": true,
+        "signed": "applied",
+        "works_after_signed": false
+      }
+    },
+    {
+      "id": "C5",
+      "track": "C",
+      "title": "Signals arrive out of order: 'access restored' (older) reaches the app after 'access revoked' (newer)",
+      "expected": "naive_reinstates_ordered_holds",
+      "expected_in_words": "An app that trusts the last message to arrive switches access back on; an app that orders by event time stays revoked",
+      "actual": "naive_reinstates_ordered_holds",
+      "verdict": "as expected",
+      "details": {
+        "last_to_arrive_wins_access_back_on": true,
+        "ordered_by_event_time_access_on": false
+      }
+    },
+    {
+      "id": "C6",
+      "track": "C",
+      "title": "The nightly HR sync replaces a disabled user with a full-record PUT that leaves out the 'active' field, versus a PATCH of only the fields that changed",
+      "expected": "put_reactivates_patch_holds",
+      "expected_in_words": "The PUT turns the disabled account back on; the PATCH leaves it disabled",
+      "actual": "put_reactivates_patch_holds",
+      "verdict": "as expected",
+      "details": {
+        "active_after_put": true,
+        "active_after_patch": false,
+        "assumption": "a PUT without 'active' falls back to a server default of true, as many servers do"
+      }
+    },
+    {
+      "id": "C7",
+      "track": "C",
+      "title": "A person who left comes back after 40 days with the same staff ID. The old account is restored, versus a fresh joiner flow",
+      "expected": "old_access_returns_fresh_holds",
+      "expected_in_words": "The restored account brings back every old entitlement; the fresh flow starts from the new job's baseline only",
+      "actual": "old_access_returns_fresh_holds",
+      "verdict": "as expected",
+      "details": {
+        "restored_account_has": [
+          "collections-write",
+          "payments-view",
+          "support-view"
+        ],
+        "fresh_account_has": [
+          "support-view"
+        ]
+      }
+    },
+    {
+      "id": "C8",
+      "track": "C",
+      "title": "A person changes surname. Accounts are matched by name, versus by an unchanging ID",
+      "expected": "duplicate_by_name_holds_by_id",
+      "expected_in_words": "Matching by name makes a second account and leaves the old one active; matching by ID updates the one account",
+      "actual": "duplicate_by_name_holds_by_id",
+      "verdict": "as expected",
+      "details": {
+        "active_accounts_matched_by_name": 2,
+        "active_accounts_matched_by_id": 1
+      }
+    },
+    {
+      "id": "C9",
+      "track": "C",
+      "title": "A contractor from a staffing agency is on the system. The contract ends in the agency's records, which HR never sees. Asked with no end date, and with a required end date of at most 90 days",
+      "expected": "stays_active_hard_stop_holds",
+      "expected_in_words": "With no end date the account is still active after 120 days; with a required end date it is disabled on the day",
+      "actual": "stays_active_hard_stop_holds",
+      "verdict": "as expected",
+      "details": {
+        "active_after_120_days_no_end_date": true,
+        "active_after_120_days_required_end_date": false
+      }
+    },
+    {
+      "id": "C10",
+      "track": "C",
+      "title": "A break-glass account is used at 2 am. Asked with no alert and no password change afterwards, and with an alert within a minute and a new password at check-in",
+      "expected": "unnoticed_vs_alerted_and_rotated",
+      "expected_in_words": "Without the controls nobody knows and the same password stays valid; with them someone is told and the password no longer works",
+      "actual": "unnoticed_vs_alerted_and_rotated",
+      "verdict": "as expected",
+      "details": {
+        "no_controls": {
+          "people_told": 0,
+          "old_password_works_after": true
+        },
+        "alert_and_rotate": {
+          "people_told": 1,
+          "old_password_works_after": false
+        }
+      }
+    },
+    {
+      "id": "C11",
+      "track": "C",
+      "title": "A person asks for their name to be erased from the audit log. Editing the line, versus keeping the name in a separate store under a pseudonym and deleting that",
+      "expected": "edit_breaks_chain_pseudonym_holds",
+      "expected_in_words": "Editing the line breaks the hash chain from that point; deleting the pseudonym's entry erases the name and the chain still verifies",
+      "actual": "edit_breaks_chain_pseudonym_holds",
+      "verdict": "as expected",
+      "details": {
+        "edit_the_line": {
+          "chain_verifies": false,
+          "name_still_findable": false
+        },
+        "pseudonym_store": {
+          "chain_verifies": true,
+          "name_still_findable": false
+        }
+      }
+    },
+    {
+      "id": "C12",
+      "track": "C",
+      "title": "An app's clock runs 15 minutes slow and it is shown a token that expired 10 minutes ago. Asked without and with a check that refuses to decide when the clock is off",
+      "expected": "slow_clock_accepts_drift_check_refuses",
+      "expected_in_words": "The slow clock accepts the expired token; the app that checks its own clock against a reference refuses",
+      "actual": "slow_clock_accepts_drift_check_refuses",
+      "verdict": "as expected",
+      "details": {
+        "slow_clock_accepts_expired_token": true,
+        "with_drift_check": "clock too far from the reference, will not decide"
+      }
+    }
+  ]
+}

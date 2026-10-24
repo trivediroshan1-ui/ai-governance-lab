@@ -1,0 +1,50 @@
+[
+  {
+    "case": "F1",
+    "switched_off": "the requester can approve their own request again",
+    "expected": "self_approval_accepted_four_eyes_holds",
+    "normal": "self_approval_accepted_four_eyes_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "F2",
+    "switched_off": "the approval is checked against the request number only",
+    "expected": "edit_after_approval_runs_hash_binding_holds",
+    "normal": "edit_after_approval_runs_hash_binding_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "F3",
+    "switched_off": "high-risk requests are included in a batch approval",
+    "expected": "batch_passes_bad_item_cap_holds",
+    "normal": "batch_passes_bad_item_cap_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "F4",
+    "switched_off": "the approval never lapses",
+    "expected": "stale_approval_runs_expiry_holds",
+    "normal": "stale_approval_runs_expiry_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "F5",
+    "switched_off": "pending requests stay with the person who left",
+    "expected": "queue_stuck_reassign_holds",
+    "normal": "queue_stuck_reassign_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "F6",
+    "switched_off": "one approval is enough again, a denial is ignored",
+    "expected": "approve_beats_deny_deny_wins_holds",
+    "normal": "approve_beats_deny_deny_wins_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

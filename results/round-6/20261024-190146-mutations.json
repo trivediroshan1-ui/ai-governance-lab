@@ -1,0 +1,98 @@
+[
+  {
+    "case": "T2",
+    "switched_off": "the executor writes the credential into the log",
+    "expected": "clean",
+    "normal": "clean",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T4",
+    "switched_off": "disable_user no longer needs an approval",
+    "expected": "held_until_approved",
+    "normal": "held_until_approved",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T5",
+    "switched_off": "the agent's own sponsor may approve",
+    "expected": "refused",
+    "normal": "other",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T7",
+    "switched_off": "the shape check lets unknown fields through",
+    "expected": "rejected",
+    "normal": "rejected",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T8",
+    "switched_off": "the vault lets the agent read the credential",
+    "expected": "refused",
+    "normal": "refused",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T9",
+    "switched_off": "the kill switch does not revoke credential leases",
+    "expected": "all_stopped",
+    "normal": "all_stopped",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T10",
+    "switched_off": "the executor does not remember request ids",
+    "expected": "duplicate_ignored",
+    "normal": "duplicate_ignored",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T11",
+    "switched_off": "the gateway writes the reason text into the log",
+    "expected": "clean",
+    "normal": "clean",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T12",
+    "switched_off": "no rate limit",
+    "expected": "rate_limited",
+    "normal": "rate_limited",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T13",
+    "switched_off": "the action's scope is not checked",
+    "expected": "refused",
+    "normal": "refused",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T14",
+    "switched_off": "the executor does not check the gateway's signature",
+    "expected": "refused",
+    "normal": "refused",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "T16",
+    "switched_off": "the API accepts credentials past their expiry",
+    "expected": "refused",
+    "normal": "refused",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

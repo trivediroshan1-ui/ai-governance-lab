@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "kind": "round 13",
+    "run_at_utc": "20261024-235333",
+    "seconds": 215.04,
+    "python": "3.9.6",
+    "machine": "Darwin x86_64",
+    "commit": "6470dfa",
+    "detector": "v3",
+    "embedder": "sentence-transformers all-MiniLM-L6-v2",
+    "cases_file": "round-13.json",
+    "cases_sha256": "9fd8ab82ea341b13390cb49e518dacbbe8c1d335e391641a098dd9e1302e6f7d",
+    "counts": {
+      "not run": 6
+    },
+    "data": "Kaveri Finance is made up. Every name and ID number is invented test data."
+  },
+  "results": [
+    {
+      "id": "S1",
+      "track": "S",
+      "title": "Support agent asks about pay in words that share no keyword with the HR salary document. Asked with no permission check, and with the live permission check before retrieval",
+      "expected": "meaning_search_leaks_hr_text_live_check_holds",
+      "expected_in_words": "With no check, search by meaning finds the HR salary document that keyword search would have missed, and its text reaches the support agent; with the live check before retrieval, it does not. This assumes the model ranks that document in its top three, which depends on the model",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 34, in s1\n    _, none = _rag(perm=\"none\")\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    },
+    {
+      "id": "S2",
+      "track": "S",
+      "title": "The same question, with the permission check in place, when the answer shows its sources. Asked when the source list shows every match, and when it shows only what the person may see",
+      "expected": "title_leaks_when_all_matches_shown",
+      "expected_in_words": "The title of the HR document appears in the source list when every match is shown, and does not when only allowed sources are shown",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 43, in s2\n    _, a = _rag(perm=\"pre_live\", sources=\"all_matches\")\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    },
+    {
+      "id": "S3",
+      "track": "S",
+      "title": "Search keeps only the best match (top one) and the best match is a restricted document. Asked when the permission filter runs after the ranking, and when it runs before",
+      "expected": "filter_after_ranking_gives_empty_answer_filter_before_does_not",
+      "expected_in_words": "With the filter after the ranking, the person gets nothing at all (no leak, but no answer); with the filter before, they get the best document they may see",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 52, in s3\n    _, after = _rag(perm=\"pre_live\", top_k=1, rank_filter=\"after\")\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    },
+    {
+      "id": "S4",
+      "track": "S",
+      "title": "A customer note holds an Aadhaar number and is found by meaning. Asked with the number masked when the notes are indexed, and without masking",
+      "expected": "aadhaar_shown_without_mask_hidden_with_mask",
+      "expected_in_words": "Without masking the number appears in the answer; with masking it appears as [AADHAAR]. The masking does not depend on how the document was found",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 63, in s4\n    _, nomask = _rag(perm=\"pre_live\", mask=False)\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    },
+    {
+      "id": "S5",
+      "track": "S",
+      "title": "An HR person moves to Support, and then asks about pay by meaning. Asked when permissions are checked against the copy taken at indexing time, and against the live directory",
+      "expected": "stale_copy_still_leaks_live_check_holds",
+      "expected_in_words": "With the copy from indexing time the former HR person still sees HR text; with the live directory they do not. The result is the same as with keyword search",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 72, in s5\n    _, stale = _rag(perm=\"pre_index\")\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    },
+    {
+      "id": "S6",
+      "track": "S",
+      "title": "Two documents each open to everyone: one says who sits on a panel, the other what that panel's members are paid. Asked by meaning how much the named person earns. All the live checks are on",
+      "expected": "combination_not_caught",
+      "expected_in_words": "Both documents are found by meaning and the answer puts the two facts together; no control here sees it. This is a limit, not a control",
+      "actual": "error",
+      "verdict": "not run",
+      "details": {
+        "error": "RuntimeError: Numpy is not available",
+        "trace": "Traceback (most recent call last):\n  File \"/Users/roshan/ai-governance-lab/run.py\", line 69, in main\n    actual, details = fn(detector) if detector else fn()\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 83, in s6\n    _, r = _rag(perm=\"pre_live\", top_k=4)\n  File \"/Users/roshan/ai-governance-lab/lab/cases_r13.py\", line 24, in _rag\n    return w, Rag(w.staff, retriever=\"embed\", **kw)\nRuntimeError: Numpy is not available\n"
+      }
+    }
+  ]
+}

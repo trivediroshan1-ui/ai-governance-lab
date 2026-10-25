@@ -1,0 +1,35 @@
+name: Propose a test case
+description: Write a case the lab author did not think of.
+title: "Case proposal: "
+labels: ["case-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: "Use made-up data only. Write the expected result BEFORE you look at the code."
+  - type: textarea
+    id: scenario
+    attributes:
+      label: What happens
+      description: "Who does what, with which control in place."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expect
+      description: "Your guess, written before you run it."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why you think the lab may miss it
+  - type: checkboxes
+    id: ok
+    attributes:
+      label: Checks
+      options:
+        - label: "No real personal data, secrets or employer information"
+          required: true
+        - label: "I am happy for this to be published with credit"
+          required: true

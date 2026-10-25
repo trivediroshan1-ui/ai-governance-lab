@@ -1,0 +1,8 @@
+title = "AI Governance Lab"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Round 2 test inputs: deliberately fake secrets used to test the guardrail filter. Made-up data."
+paths = ['''lab/cases_r2\.py''']

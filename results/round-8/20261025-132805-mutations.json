@@ -1,0 +1,170 @@
+[
+  {
+    "case": "B1",
+    "switched_off": "the API does not check who is calling",
+    "expected": "refused_at_api",
+    "normal": "refused_at_api",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B2",
+    "switched_off": "reconciliation does not report unmatched changes",
+    "expected": "bypass_flagged_exactly_one",
+    "normal": "bypass_flagged_exactly_one",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B3",
+    "switched_off": "the policy does not switch off the agent it can trace",
+    "expected": "killed_and_revoked_no_auto_rollback",
+    "normal": "killed_and_revoked_no_auto_rollback",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B3",
+    "switched_off": "the policy does not revoke the leaked token",
+    "expected": "killed_and_revoked_no_auto_rollback",
+    "normal": "killed_and_revoked_no_auto_rollback",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B4",
+    "switched_off": "the network allows every route",
+    "expected": "no_route",
+    "normal": "no_route",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B5",
+    "switched_off": "the API does not check when a credential expires",
+    "expected": "refused_wrong_caller_and_expired",
+    "normal": "refused_wrong_caller_and_expired",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B6",
+    "switched_off": "no watch alert for touching a disabled account",
+    "expected": "watch_alert_reenable_blocked",
+    "normal": "watch_alert_reenable_blocked",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B6",
+    "switched_off": "switching an account back on is not blocked",
+    "expected": "watch_alert_reenable_blocked",
+    "normal": "watch_alert_reenable_blocked",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B7",
+    "switched_off": "new access is allowed before the old access is reviewed",
+    "expected": "blocked_flagged_then_granted_after_review",
+    "normal": "blocked_flagged_then_granted_after_review",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B7",
+    "switched_off": "a mover who keeps old access is not flagged",
+    "expected": "blocked_flagged_then_granted_after_review",
+    "normal": "blocked_flagged_then_granted_after_review",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B7",
+    "switched_off": "the review does not remove the old access",
+    "expected": "blocked_flagged_then_granted_after_review",
+    "normal": "blocked_flagged_then_granted_after_review",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B8",
+    "switched_off": "leaving sponsor: lent credentials are not revoked",
+    "expected": "agent_off_pending_cancelled_leases_revoked",
+    "normal": "agent_off_pending_cancelled_leases_revoked",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B8",
+    "switched_off": "leaving sponsor: waiting requests are not cancelled",
+    "expected": "agent_off_pending_cancelled_leases_revoked",
+    "normal": "agent_off_pending_cancelled_leases_revoked",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B9",
+    "switched_off": "anyone can record a helper, including an agent",
+    "expected": "recorded_helper_not_flagged",
+    "normal": "recorded_helper_not_flagged",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B9",
+    "switched_off": "free text is accepted for an accommodation",
+    "expected": "recorded_helper_not_flagged",
+    "normal": "recorded_helper_not_flagged",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B9",
+    "switched_off": "an unrecorded helper is treated as recorded",
+    "expected": "recorded_helper_not_flagged",
+    "normal": "recorded_helper_not_flagged",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B10",
+    "switched_off": "the evidence hash is not checked",
+    "expected": "signal_to_person_with_evidence",
+    "normal": "signal_to_person_with_evidence",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B10",
+    "switched_off": "the rule fires on a single export",
+    "expected": "signal_to_person_with_evidence",
+    "normal": "signal_to_person_with_evidence",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B11",
+    "switched_off": "the request shape allows an extra fields entry",
+    "expected": "refused_sensitive_none_leaked",
+    "normal": "refused_sensitive_none_leaked",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B12",
+    "switched_off": "the chain check ignores edited lines",
+    "expected": "tamper_detected",
+    "normal": "tamper_detected",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "B12",
+    "switched_off": "the anchor check ignores cut-off lines",
+    "expected": "tamper_detected",
+    "normal": "tamper_detected",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

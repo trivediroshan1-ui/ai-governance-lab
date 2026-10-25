@@ -1,5 +1,7 @@
 # AI Governance Lab
 
+![Code: MIT](https://img.shields.io/badge/code-MIT-4de2ff?style=flat-square) ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-8b5cf6?style=flat-square) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-34d399?style=flat-square) ![164 cases](https://img.shields.io/badge/cases-164-f7c873?style=flat-square)
+
 **Do AI governance controls actually hold, or do they only look right in a mapping sheet?**
 13 rounds, 164 cases on made-up data. For every case I wrote what I expected, hashed it and committed it before the code, ran it, then switched each control off to see whether a check noticed. Mistakes stay in the record.
 
@@ -8,6 +10,8 @@
 [Every command I ran on my Mac, with output](https://roshantrivedi.co.in/ai-governance-lab/mac/) ·
 [Free book, 69 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-book.pdf) ·
 [Rounds five to thirteen, 74 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
+
+**On this page:** [Findings](#eight-things-the-lab-found) · [Method](#how-it-stays-honest) · [Rounds](#the-rounds) · [Run it](#run-it) · [Where to start](#where-to-start) · [Limits](#what-this-does-not-show) · [Propose a case](#propose-a-case-cite-licence)
 
 The company is made up (Kaveri Finance, an Indian lender). Every person, Aadhaar, PAN and card number is invented. Aadhaar and cards pass the real checks on purpose, so a filter cannot cheat. Nothing here relates to any employer or real company.
 
@@ -71,7 +75,7 @@ python3 mutations_r12.py            # switch each control off and check that a c
 Round 13 uses an embedding model for search by meaning:
 
 ```bash
-python3 run.py --round 13                              # built-in word-stem stand-in: proves only that the code works
+python3 run.py --round 13                              # built-in word-stem stand-in: checks only that the code works
 pip3 install sentence-transformers "numpy<2"           # numpy 2 breaks the torch build I used
 AGL_EMBEDDER=st:all-MiniLM-L6-v2 python3 run.py --round 13
 AGL_EMBEDDER=st:all-MiniLM-L6-v2 python3 mutations_r13.py
@@ -109,4 +113,4 @@ Write a case I did not think of: say what happens, write your expected result **
 
 If you use this, please cite it as: *Roshan Trivedi, "AI Governance Lab", 2026, https://github.com/trivediroshan1-ui/ai-governance-lab*.
 
-MIT licence. See [LICENSE](LICENSE). Built by [Roshan Trivedi](https://roshantrivedi.co.in): privileged access and identity for 14+ years, now testing AI governance in the open.
+Code: MIT (see [LICENSE](LICENSE)). Text, books and videos: CC BY 4.0. To cite, use [CITATION.cff](CITATION.cff) or the "Cite this repository" button. Built by [Roshan Trivedi](https://roshantrivedi.co.in): privileged access and identity for 14+ years, now testing AI governance in the open.

@@ -1,0 +1,42 @@
+[
+  {
+    "case": "S1",
+    "switched_off": "permissions are not checked at all, so a meaning match reaches the support agent",
+    "expected": "meaning_search_leaks_hr_text_live_check_holds",
+    "normal": "meaning_search_leaks_hr_text_live_check_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "S2",
+    "switched_off": "the source list shows every match, not only what the person may see",
+    "expected": "title_leaks_when_all_matches_shown",
+    "normal": "title_leaks_when_all_matches_shown",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "S3",
+    "switched_off": "the permission filter runs after the ranking, not before",
+    "expected": "filter_after_ranking_gives_empty_answer_filter_before_does_not",
+    "normal": "filter_after_ranking_gives_empty_answer_filter_before_does_not",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "S4",
+    "switched_off": "ID numbers are not masked when documents are indexed",
+    "expected": "aadhaar_shown_without_mask_hidden_with_mask",
+    "normal": "aadhaar_shown_without_mask_hidden_with_mask",
+    "with_control_off": "other",
+    "case_notices": true
+  },
+  {
+    "case": "S5",
+    "switched_off": "permissions are read from the copy taken when documents were indexed",
+    "expected": "stale_copy_still_leaks_live_check_holds",
+    "normal": "stale_copy_still_leaks_live_check_holds",
+    "with_control_off": "other",
+    "case_notices": true
+  }
+]

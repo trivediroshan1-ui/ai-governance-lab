@@ -49,7 +49,7 @@ def main() -> int:
             f.write_text(text)
             after = run_case(dst, cid)
         rows.append({"case": cid, "switched_off": what, "expected": spec[cid]["expected"], "normal": normal, "with_control_off": after,
-                     "case_notices": after != spec[cid]["expected"]})
+                     "case_notices": normal == spec[cid]["expected"] and after != spec[cid]["expected"] and not str(after).startswith("error")})
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     out = ROOT / "results" / "round-11"
     out.mkdir(parents=True, exist_ok=True)

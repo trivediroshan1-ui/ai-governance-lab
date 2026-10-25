@@ -55,7 +55,7 @@ def main() -> int:
         except Exception as e:
             after = f"error: {type(e).__name__}"
         rows.append({"case": cid, "switched_off": what, "expected": spec[cid]["expected"], "normal": normal, "with_control_off": after,
-                     "case_notices": after != spec[cid]["expected"]})
+                     "case_notices": normal == spec[cid]["expected"] and after != spec[cid]["expected"] and not str(after).startswith("error")})
     load(SRC)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     out = ROOT / "results" / "round-7"

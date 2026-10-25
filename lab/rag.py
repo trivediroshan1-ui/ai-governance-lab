@@ -8,6 +8,7 @@ import random
 import re
 
 from . import ids
+from .embed import cosine, get_embedder
 
 _AADHAAR = ids.make_aadhaar(random.Random(9))   # made up; passes the real checksum on purpose
 DOCS = [
@@ -31,7 +32,10 @@ def _words(q: str) -> list[str]:
 
 
 class Rag:
-    def __init__(self, staff, perm="pre_live", cache="per_user", mask=True, sources="allowed_only", trace="ids", on_behalf=True):
+    def __init__(self, staff, perm="pre_live", cache="per_user", mask=True, sources="allowed_only", trace="ids", on_behalf=True,
+                 retriever="keyword", embedder=None, top_k=3, rank_filter="before"):
+        self.retriever, self.top_k, self.rank_filter = retriever, top_k, rank_filter     # round thirteen: "keyword" (rounds 9 to 12) or "embed"
+        self.embedder = embedder or (get_embedder() if retriever == "embed" else None)
         self.perm, self.cache_mode, self.mask, self.sources_mode, self.trace_mode, self.on_behalf = perm, cache, mask, sources, trace, on_behalf
         self.staff = {s["id"]: dict(s) for s in staff}           # the live directory
         self.source = [dict(d) for d in DOCS]                     # the live document store
@@ -46,6 +50,9 @@ class Rag:
             text = AADHAAR_RE.sub("[AADHAAR]", d["text"]) if self.mask else d["text"]
             self.chunks.append({"doc": d["id"], "title": d["title"], "team": d["team"], "text": text})
         self.index_teams = {k: v["team"] for k, v in self.staff.items()}   # permissions copied at index time
+        if self.retriever == "embed":
+            for c, v in zip(self.chunks, self.embedder.embed([c["title"] + ". " + c["text"] for c in self.chunks])):
+                c["vec"] = v
 
     def move(self, staff_id: str, new_team: str) -> None:
         self.staff[staff_id]["team"] = new_team                   # the directory changes now; the index copy does not
@@ -65,6 +72,14 @@ class Rag:
         return team == chunk["team"]
 
     def retrieve(self, query: str, user: str):
+        if self.retriever == "embed":
+            qv = self.embedder.embed([query])[0]
+            ranked = sorted(((cosine(qv, c["vec"]), i, c) for i, c in enumerate(self.chunks)), key=lambda t: (-t[0], t[1]))
+            ranked = [c for s, i, c in ranked if s > 0]
+            matches = ranked[:self.top_k]
+            if self.rank_filter == "before":
+                return matches, [c for c in ranked if self._allowed(c, user)][:self.top_k]
+            return matches, [c for c in matches if self._allowed(c, user)]
         words = _words(query)
         matches = [c for c in self.chunks if any(w in c["text"].lower() for w in words)]
         allowed = [c for c in matches if self._allowed(c, user)]

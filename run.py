@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 
 from lab.cases import CASES  # noqa: E402
 
-TRACKS = {"A": "AI use gateway", "G": "Guardrail filter", "I": "Agent identity and access", "E": "Audit evidence", "V": "Vendor and third-party AI access", "R": "Retrieval and document permissions", "T": "Agent instructions to an identity API", "H": "HR-driven identity lifecycle", "B": "Bypass, response, lists and evidence", "Q": "Retrieval-augmented answers", "C": "Credentials, sessions and identity edge cases", "D": "Delegation, keys and organisations", "F": "Approvals"}
+TRACKS = {"A": "AI use gateway", "G": "Guardrail filter", "I": "Agent identity and access", "E": "Audit evidence", "V": "Vendor and third-party AI access", "R": "Retrieval and document permissions", "T": "Agent instructions to an identity API", "H": "HR-driven identity lifecycle", "B": "Bypass, response, lists and evidence", "Q": "Retrieval-augmented answers", "C": "Credentials, sessions and identity edge cases", "D": "Delegation, keys and organisations", "F": "Approvals", "S": "Search by meaning"}
 
 
 def git_commit() -> str:
@@ -82,7 +82,7 @@ def main() -> int:
         "kind": "dry run (not a lab result)" if args.dry_run else f"round {args.round}",
         "run_at_utc": stamp, "seconds": round(seconds, 2), "python": platform.python_version(),
         "machine": f"{platform.system()} {platform.machine()}", "commit": git_commit(),
-        "detector": detector.name if detector else "built-in", "cases_file": cases_path.name, "cases_sha256": hashlib.sha256(raw).hexdigest(), "counts": counts,
+        "detector": detector.name if detector else "built-in", **({"embedder": __import__("lab.embed", fromlist=["x"]).get_embedder().name} if args.round == 13 else {}), "cases_file": cases_path.name, "cases_sha256": hashlib.sha256(raw).hexdigest(), "counts": counts,
         "data": "Kaveri Finance is made up. Every name and ID number is invented test data.",
     }
     outdir = ROOT / "results" / ("dry-run" if args.dry_run else f"round-{args.round}")

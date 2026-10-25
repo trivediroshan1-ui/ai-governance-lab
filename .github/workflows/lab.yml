@@ -1,0 +1,50 @@
+name: Lab checks
+
+# Runs every round on the built-in stand-ins (no packages needed), then each
+# control-off script. A "different" verdict is a finding, not a failure; the
+# job fails only if a case cannot run or a script crashes.
+# The real-model run for round 13 stays as Mac evidence and is not run here.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Dry run
+        run: python3 run.py --dry-run
+      - name: Rounds 1 to 13 (built-in stand-ins)
+        run: |
+          for r in 1 2 3 4 5 6 7 8 9 10 11 12 13; do
+            echo "::group::round $r"
+            python3 run.py --round "$r"
+            echo "::endgroup::"
+          done
+      - name: Control-off checks, rounds 6 to 12
+        run: |
+          for r in 6 7 8 9 10 11 12; do
+            echo "::group::mutations round $r"
+            python3 "mutations_r$r.py"
+            echo "::endgroup::"
+          done
+      - name: Keep the result files from this run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-py${{ matrix.python }}
+          path: results/
+          retention-days: 14

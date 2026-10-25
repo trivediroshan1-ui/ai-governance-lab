@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "AI Governance Lab"
+message: "If you use this, please cite it."
+type: software
+authors:
+  - family-names: Trivedi
+    given-names: Roshan
+repository-code: "https://github.com/trivediroshan1-ui/ai-governance-lab"
+url: "https://roshantrivedi.co.in/ai-governance-lab/"
+abstract: "13 rounds and 164 cases testing whether AI governance controls hold, on made-up data. Expected results hashed (SHA-256) and committed before code; every control switched off once to see if a check notices."
+keywords:
+  - AI governance
+  - identity and access management
+  - privileged access management
+  - non-human identity
+  - agentic AI
+license: MIT
+date-released: "2026-10-25"

@@ -1,6 +1,6 @@
 # AI Governance Lab
 
-![Code: MIT](https://img.shields.io/badge/code-MIT-4de2ff?style=flat-square) ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-8b5cf6?style=flat-square) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-34d399?style=flat-square) ![164 cases](https://img.shields.io/badge/cases-164-f7c873?style=flat-square)
+![Code: MIT](https://img.shields.io/badge/code-MIT-4de2ff?style=flat-square) ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-8b5cf6?style=flat-square) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-34d399?style=flat-square) ![164 cases](https://img.shields.io/badge/cases-164-f7c873?style=flat-square) [![Lab checks](https://github.com/trivediroshan1-ui/ai-governance-lab/actions/workflows/lab.yml/badge.svg)](https://github.com/trivediroshan1-ui/ai-governance-lab/actions/workflows/lab.yml)
 
 **Do AI governance controls actually hold, or do they only look right in a mapping sheet?**
 13 rounds, 164 cases on made-up data. For every case I wrote what I expected, hashed it and committed it before the code, ran it, then switched each control off to see whether a check noticed. Mistakes stay in the record.
@@ -12,6 +12,15 @@
 [Rounds five to thirteen, 74 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
 
 **On this page:** [Findings](#eight-things-the-lab-found) · [Method](#how-it-stays-honest) · [Rounds](#the-rounds) · [Run it](#run-it) · [Where to start](#where-to-start) · [Limits](#what-this-does-not-show) · [Propose a case](#propose-a-case-cite-licence)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/lab-method-dark.svg">
+  <img alt="How every case is tested: write the guess, hash and commit it, run the cases, switch one control off in a copy, check whether a case notices (it must pass normally, then give a different result that is not an error), keep every file." src="docs/img/lab-method-light.svg" width="100%">
+</picture>
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/trivediroshan1-ui/ai-governance-lab?quickstart=1)
+
+Try it in your browser: the Codespace installs nothing extra and runs `python3 run.py --dry-run` when it opens. Then try `python3 run.py --round 12` and `python3 mutations_r12.py`.
 
 The company is made up (Kaveri Finance, an Indian lender). Every person, Aadhaar, PAN and card number is invented. Aadhaar and cards pass the real checks on purpose, so a filter cannot cheat. Nothing here relates to any employer or real company.
 

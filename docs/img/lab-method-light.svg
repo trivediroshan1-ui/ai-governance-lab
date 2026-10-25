@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+<title id="t">How each case in the AI Governance Lab is tested</title>
+<desc id="d">Six steps: write the guess before code, hash it and commit it, run the cases, switch one control off in a copy of the code, check whether a case notices (it must pass normally and then give a different result that is not an error), and keep every file including mistakes. If no case notices, or the case crashes, the test is weak.</desc>
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.box{fill:#f7f9ff;stroke:#d5dcec;stroke-width:2;animation:lit 10s infinite}
+.num{fill:none;stroke:#0a8fb0;stroke-width:2} .nt{font-size:13px;font-weight:700;fill:#0a8fb0}
+.t1{font-size:17px;font-weight:700;fill:#0b1230} .t2{font-size:13px;fill:#4a5675}
+.h{font-size:26px;font-weight:800;fill:#0b1230} .sub{font-size:15px;fill:#4a5675}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;fill:#6d3fe0}
+.rail{stroke:#d5dcec;stroke-width:3;fill:none} .tick{stroke:#d5dcec;stroke-width:2}
+@keyframes lit{0%{stroke:#0a8fb0;stroke-width:3}12%{stroke:#0a8fb0;stroke-width:3}18%,100%{stroke:#d5dcec;stroke-width:2}}
+.dot{fill:#0a8fb0;offset-path:path("M125.0 262 H1075.0");animation:move 10s linear infinite}
+@keyframes move{0%{offset-distance:0%}75%,100%{offset-distance:100%}}
+.ok,.bad{opacity:0;animation:show 10s infinite} .bad{animation-name:show2}
+@keyframes show{0%,62%{opacity:0}65%,79%{opacity:1}82%,100%{opacity:0}}
+@keyframes show2{0%,81%{opacity:0}84%,97%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.box,.dot,.ok,.bad{animation:none} .ok,.bad{opacity:1} .dot{display:none}}
+</style>
+<rect width="1200" height="400" rx="18" fill="#f7f9ff"/><rect x="1" y="1" width="1198" height="398" rx="18" fill="none" stroke="#d5dcec"/>
+<text x="48" y="58" class="h">How every case is tested</text>
+<text x="48" y="86" class="sub">The guess is locked before the code exists. Then each control is switched off once to see if anything notices.</text>
+<text x="1152" y="58" text-anchor="end" class="mono">13 rounds · 164 cases</text>
+<path d="M125.0 262 H1075.0" class="rail"/>
+<g class="n"><rect x="41.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:0.00s"/>
+<circle cx="125.0" cy="142" r="13" class="num"/><text x="125.0" y="147" text-anchor="middle" class="nt">1</text>
+<text x="125.0" y="178" text-anchor="middle" class="t1">Write the</text><text x="125.0" y="198" text-anchor="middle" class="t1">guess</text>
+<text x="125.0" y="222" text-anchor="middle" class="t2">before any code</text>
+<line x1="125.0" y1="236" x2="125.0" y2="262" class="tick"/></g><g class="n"><rect x="231.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:1.50s"/>
+<circle cx="315.0" cy="142" r="13" class="num"/><text x="315.0" y="147" text-anchor="middle" class="nt">2</text>
+<text x="315.0" y="178" text-anchor="middle" class="t1">Hash it and</text><text x="315.0" y="198" text-anchor="middle" class="t1">commit</text>
+<text x="315.0" y="222" text-anchor="middle" class="t2">SHA-256, locked</text>
+<line x1="315.0" y1="236" x2="315.0" y2="262" class="tick"/></g><g class="n"><rect x="421.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:3.00s"/>
+<circle cx="505.0" cy="142" r="13" class="num"/><text x="505.0" y="147" text-anchor="middle" class="nt">3</text>
+<text x="505.0" y="178" text-anchor="middle" class="t1">Run the</text><text x="505.0" y="198" text-anchor="middle" class="t1">cases</text>
+<text x="505.0" y="222" text-anchor="middle" class="t2">keep every result</text>
+<line x1="505.0" y1="236" x2="505.0" y2="262" class="tick"/></g><g class="n"><rect x="611.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:4.50s"/>
+<circle cx="695.0" cy="142" r="13" class="num"/><text x="695.0" y="147" text-anchor="middle" class="nt">4</text>
+<text x="695.0" y="178" text-anchor="middle" class="t1">Switch one</text><text x="695.0" y="198" text-anchor="middle" class="t1">control off</text>
+<text x="695.0" y="222" text-anchor="middle" class="t2">in a copy of the code</text>
+<line x1="695.0" y1="236" x2="695.0" y2="262" class="tick"/></g><g class="n"><rect x="801.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:6.00s"/>
+<circle cx="885.0" cy="142" r="13" class="num"/><text x="885.0" y="147" text-anchor="middle" class="nt">5</text>
+<text x="885.0" y="178" text-anchor="middle" class="t1">Does a case</text><text x="885.0" y="198" text-anchor="middle" class="t1">notice?</text>
+<text x="885.0" y="222" text-anchor="middle" class="t2">pass, then differ</text>
+<line x1="885.0" y1="236" x2="885.0" y2="262" class="tick"/></g><g class="n"><rect x="991.0" y="118" width="168" height="118" rx="14" class="box" style="animation-delay:7.50s"/>
+<circle cx="1075.0" cy="142" r="13" class="num"/><text x="1075.0" y="147" text-anchor="middle" class="nt">6</text>
+<text x="1075.0" y="178" text-anchor="middle" class="t1">Keep every</text><text x="1075.0" y="198" text-anchor="middle" class="t1">file</text>
+<text x="1075.0" y="222" text-anchor="middle" class="t2">mistakes included</text>
+<line x1="1075.0" y1="236" x2="1075.0" y2="262" class="tick"/></g>
+<circle r="8" class="dot"/>
+<g class="ok"><rect x="705.0" y="284" width="360" height="42" rx="10" fill="#f7f9ff" stroke="#0f9d6b" stroke-width="2"/><text x="885.0" y="311" text-anchor="middle" font-size="16" font-weight="700" fill="#0f9d6b">Noticed: the control matters</text></g>
+<g class="bad"><rect x="705.0" y="284" width="360" height="42" rx="10" fill="#f7f9ff" stroke="#d6335a" stroke-width="2"/><text x="885.0" y="311" text-anchor="middle" font-size="16" font-weight="700" fill="#d6335a">Not noticed, or it crashed: weak test</text></g>
+<text x="48" y="376" font-size="12.5" fill="#4a5675">All data is made up. Nothing here relates to any employer or real company.</text>
+</svg>

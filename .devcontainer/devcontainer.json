@@ -1,0 +1,10 @@
+{
+  "name": "AI Governance Lab",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "python3 run.py --dry-run",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md", "run.py"]
+    }
+  }
+}

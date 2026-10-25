@@ -48,14 +48,16 @@ If every case matches my guess, I read that as a warning that the guesses were e
 |---|---|---|---|---|---|
 | 1 to 4 | Gateway, guardrail filter, agent identity, audit evidence, three filter versions | 59 | see the site | filters: 20, 42, 45 of 53 variants; 4 of 10 on unseen items | `cases/round-1.json` to `round-4.json` |
 | 5 | What did my own identity-governance audit miss? (the "read access" claim) | 14 | 14 of 14 (I13 crashed first run: my test, fixed) | n/a | `c35063c59b` |
-| 6 | An agent that sends instructions to an identity API | 18 | 18 of 18 | 12 of 12 | `47fd08c1e8` |
-| 7 | HR-driven joiner, mover, leaver | 12 | 12 of 12 | 14 of 14 (first run 13 of 14: one weak test, rebuilt) | `cd132028ef` |
+| 6 | An agent that sends instructions to an identity API | 18 | 18 of 18 | 11 of 12 (re-counted 25 Oct; was 12 of 12) | `47fd08c1e8` |
+| 7 | HR-driven joiner, mover, leaver | 12 | 12 of 12 | 12 of 14 (re-counted 25 Oct; was 14 of 14; first run 13 of 14) | `cd132028ef` |
 | 8 | What if the agent goes round the gateway? | 12 | 12 of 12 | 21 of 21 | `eda951f43e` |
-| 9 | An assistant that answers from company documents | 12 | 12 of 12 (first run 11: a bug in my masking, fixed) | 12 of 12 (some weaker, stated) | `1cf564faf7` |
+| 9 | An assistant that answers from company documents | 12 | 12 of 12 (first run 11: a bug in my masking, fixed) | 13 of 15 (re-counted 25 Oct with the 3 stronger checks; was 12 of 12) | `1cf564faf7` |
 | 10 | Credentials, sessions and edge cases | 12 | 12 of 12 first run | 12 of 12 | `ad73f73f85` |
 | 11 | Delegation, keys and organisations | 12 | 12 of 12 (first run 11: my own test, fixed) | 11 of 11 | `4fd307467d` |
 | 12 | Who approved it, what exactly, and when | 7 | 7 of 7 | 6 of 6 | `96da9fc693` |
 | 13 | Do the document permissions hold under search by meaning? | 6 | 6 of 6 (real model on the Mac) | 5 of 5 | `9fd8ab82ea` |
+
+**Re-counted, 25 Oct 2026.** Rounds 6 to 12 now use the rule round 13 introduced: a case notices a switched-off control only if it passes normally and gives a different result that is not an error. Before, a crash counted as noticing. Round 6: 12 of 12 became 11 of 12 (T5, the agent's own sponsor may approve). Round 7: 14 of 14 became 12 of 14 (H4, the same person may give both approvals; H8, the signed policy is not required). Round 9: 13 of the current 15 checks (Q5 twice; the executor is a second layer that still blocks it, so no case sees a change). Rounds 8, 10, 11 and 12 are unchanged. T5, H4 and H8 will be rewritten so the bad approval visibly goes through; the old result files stay in the repository.
 
 Total: **164 cases** (59 in rounds one to four, 105 in rounds five to thirteen), plus 9 requests I ran by hand on one real assistant (Track P: it followed the written policy in 9 of 9; a small test). Cases are in `cases/`, results in `results/round-N/`, code in `lab/`.
 

@@ -43,7 +43,8 @@ def main() -> int:
             f.write_text(text)
             after = run_case(dst, cid)
         rows.append({"case": cid, "switched_off": what, "expected": spec[cid]["expected"], "normal": normal, "with_control_off": after,
-                     "case_notices": after != spec[cid]["expected"]})
+                     "valid": normal == spec[cid]["expected"],
+                     "case_notices": normal == spec[cid]["expected"] and after != spec[cid]["expected"] and not str(after).startswith("error")})
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     out = ROOT / "results" / "round-13"
     out.mkdir(parents=True, exist_ok=True)
@@ -54,6 +55,9 @@ def main() -> int:
     lines += [f"| {r['case']} | {r['switched_off']} | {r['normal']} | {r['with_control_off']} | {'yes' if r['case_notices'] else 'NO'} |" for r in rows]
     (out / f"{stamp}-mutations.md").write_text("\n".join(lines) + "\n")
     noticed = sum(r["case_notices"] for r in rows)
+    bad = [r['case'] for r in rows if not r['valid']]
+    if bad:
+        print('INVALID RUN: these cases did not pass normally, so nothing below counts:', ', '.join(bad))
     print(f"{noticed} of {len(rows)} switched-off controls are noticed by their case")
     for r in rows:
         if not r["case_notices"]:

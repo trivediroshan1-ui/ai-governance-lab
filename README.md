@@ -1,137 +1,112 @@
 # AI Governance Lab
 
-When a company says "we govern our AI use", which of those controls actually
-hold when someone tries to get around them?
+**Do AI governance controls actually hold, or do they only look right in a mapping sheet?**
+13 rounds, 164 cases on made-up data. For every case I wrote what I expected, hashed it and committed it before the code, ran it, then switched each control off to see whether a check noticed. Mistakes stay in the record.
 
-This lab builds a small, open set of AI governance controls for a made-up
-Indian lender, **Kaveri Finance**, and runs a fixed list of cases against them.
-Every case has its expected result written down before the run. Every result is
-kept, including the ones that turn out different.
+[Read it with diagrams and videos](https://roshantrivedi.co.in/ai-governance-lab/?utm_source=github&utm_medium=readme) ·
+[Every case](https://roshantrivedi.co.in/ai-governance-lab/cases/) ·
+[Every command I ran on my Mac, with output](https://roshantrivedi.co.in/ai-governance-lab/mac/) ·
+[Free book, 69 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-book.pdf) ·
+[Rounds five to thirteen, 74 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
 
-It follows the same method as the
-[MCP Human Approval Gateway](https://github.com/trivediroshan1-ui/mcp-human-approval-gateway)
-lab.
+The company is made up (Kaveri Finance, an Indian lender). Every person, Aadhaar, PAN and card number is invented. Aadhaar and cards pass the real checks on purpose, so a filter cannot cheat. Nothing here relates to any employer or real company.
 
-> **What this proves, and what it doesn't.** It shows what one small, open set
-> of controls did on a fixed list of cases, on made-up data. It does not show
-> that any product, model or company is safe, compliant or certified. The
-> mappings to laws and standards are my own reading, not legal advice.
+---
 
-## The four tracks in round one
+## Eight things the lab found
 
-| Track | What's built | The question it answers |
-|---|---|---|
-| **A. AI use gateway** (`lab/registry.py`, `lab/gateway.py`) | An AI use register (owner, purpose, risk tier, data allowed, model and version, approver, expiry, AI bill of materials), a gateway every model call goes through, a kill switch and a hash-chain decision log | Can the company see, approve and stop every AI use? |
-| **G. Guardrail filter** (`lab/guardrail.py`) | Masks secrets and Indian personal data (Aadhaar with its checksum, PAN, cards with Luhn, phones, emails), decodes base64, reads Devanagari digits, and flags prompt injection | How much does masking really catch, and how often does it block normal work? |
-| **I. Agent identity and access** (`lab/identity.py`) | Agents with their own identity and a human sponsor, short-lived signed tokens, scopes that never exceed the person an agent acts for, signed agent-to-agent messages, just-in-time privileged access and a kill switch that revokes everything | Does every agent have an owner, the least access it needs, and an off switch? |
-| **E. Audit evidence** (`lab/cases.py`, `lab/controls.py`) | Reports built from the A and I logs, and a control map to ISO/IEC 42001, the NIST AI RMF, the EU AI Act and Indian rules | Could the company show an auditor proof, not a slide? |
+1. **Telling the model "do not reveal this" changed nothing.** A careless model repeats what it is given. What held was checking the person's *live* permissions before the documents are fetched (round 9).
+2. **A plain text filter broke, and my fix only looked good on my own tests.** Three versions caught 20, 42 and 45 of 53 attack variants, but only 4 of 10 items written after the fix. The 100% on the 200-sample set was tuned to it (rounds 1 to 4).
+3. **A nightly sync that replaces a whole user record can switch a disabled account back on.** A rehire that restores the old account brings the old access back too. An erasure request and a tamper-evident log pull in opposite directions (round 10).
+4. **A shared secret let a compromised executor forge proofs. A public key did not.** The second agent also inherited everything the first one had, until its token was cut down to the job (round 11).
+5. **Search by meaning found a restricted HR document for a question with no matching keyword.** Where the permission filter sits matters: after ranking it can return an empty answer, before ranking it returns the best allowed document (round 13).
+6. **If the agent goes round the gateway, you need three layers, not one:** make it hard, notice it, answer it. A change in the identity system's own log with no signed decision behind it is the alarm (round 8).
+7. **Approvals have a life cycle.** When an approver leaves, their waiting requests have to go somewhere (round 12).
+8. **My own checker lied once.** It said "5 of 5 noticed" while every case had errored, because it counted an error as noticing a change. I fixed it so an error never counts, and kept the wrong file (round 13).
 
-Round one has 41 cases: A 15, G 9, I 10 and E 7. They're listed in
-[`cases/round-1.json`](cases/round-1.json). Track P (consumer assistants under
-one company policy) and the remaining cases come in round two.
+---
+
+## How it stays honest
+
+1. **Guess first.** The expected result for every case is written and committed before the code. The result file records the SHA-256 of the cases file, so anyone can check the guesses did not change afterwards.
+2. **Run it.** Results are kept, including the ones that differ from the guess.
+3. **Switch each control off, one at a time,** in a copy of the code, each in its own process. A case counts as "noticing" only if it passes normally and gives a different, non-error result with the control off.
+4. **Two machines.** Linux sandbox and a MacBook Air, same verdicts, both files kept. Real embedding model on the Mac for round 13.
+5. **Show the mistakes.** First-run files, fixed tests and a wrong checker result are all in the repository and on the website.
+
+If every case matches my guess, I read that as a warning that the guesses were easy, not as good news about the controls.
+
+---
+
+## The rounds
+
+| Round | Question | New cases | As guessed | Control-off checks | Guesses file (SHA-256, first 10) |
+|---|---|---|---|---|---|
+| 1 to 4 | Gateway, guardrail filter, agent identity, audit evidence, three filter versions | 59 | see the site | filters: 20, 42, 45 of 53 variants; 4 of 10 on unseen items | `cases/round-1.json` to `round-4.json` |
+| 5 | What did my own identity-governance audit miss? (the "read access" claim) | 14 | 14 of 14 (I13 crashed first run: my test, fixed) | n/a | `c35063c59b` |
+| 6 | An agent that sends instructions to an identity API | 18 | 18 of 18 | 12 of 12 | `47fd08c1e8` |
+| 7 | HR-driven joiner, mover, leaver | 12 | 12 of 12 | 14 of 14 (first run 13 of 14: one weak test, rebuilt) | `cd132028ef` |
+| 8 | What if the agent goes round the gateway? | 12 | 12 of 12 | 21 of 21 | `eda951f43e` |
+| 9 | An assistant that answers from company documents | 12 | 12 of 12 (first run 11: a bug in my masking, fixed) | 12 of 12 (some weaker, stated) | `1cf564faf7` |
+| 10 | Credentials, sessions and edge cases | 12 | 12 of 12 first run | 12 of 12 | `ad73f73f85` |
+| 11 | Delegation, keys and organisations | 12 | 12 of 12 (first run 11: my own test, fixed) | 11 of 11 | `4fd307467d` |
+| 12 | Who approved it, what exactly, and when | 7 | 7 of 7 | 6 of 6 | `96da9fc693` |
+| 13 | Do the document permissions hold under search by meaning? | 6 | 6 of 6 (real model on the Mac) | 5 of 5 | `9fd8ab82ea` |
+
+Total: **164 cases** (59 in rounds one to four, 105 in rounds five to thirteen), plus 9 requests I ran by hand on one real assistant (Track P: it followed the written policy in 9 of 9; a small test). Cases are in `cases/`, results in `results/round-N/`, code in `lab/`.
+
+---
 
 ## Run it
 
-Python 3.10 or newer. Nothing to install.
+Python 3.9 or newer (run on 3.9.6 and 3.11). Rounds one to twelve need nothing installed.
 
 ```bash
-python3 run.py --dry-run     # checks it all runs; results go to results/dry-run/ (not kept)
-python3 run.py               # the real round-one run, once the guesses are committed
-python3 run.py --only G4,I7  # just some cases
+python3 run.py --dry-run            # checks everything runs (round one by default); results are not kept
+python3 run.py --round 12           # the cases of one round -> results/round-12/<time>.json and .md
+python3 run.py --round 12 --only F5 # one case
+python3 mutations_r12.py            # switch each control off and check that a case notices
 ```
 
-A run takes under a second and writes `results/round-1/<time>.json` and `.md`.
-The JSON records the machine, Python version, git commit and the SHA-256 of
-the cases file, so anyone can check the guesses came first.
+Round 13 uses an embedding model for search by meaning:
 
-See [docs/METHOD.md](docs/METHOD.md) for the method and
-[docs/control-map.md](docs/control-map.md) for the control map.
-
-## The made-up company
-
-`data/kaveri-finance.json` has 40 staff and 200 customers, generated from a
-fixed seed (`lab/data.py`), so every run sees the same company. Aadhaar, PAN
-and card numbers pass the real format checks so the filter can't cheat, but
-every one is invented, and each customer record is marked as test data.
-
-## Limits
-
-- The "models" are entries in a catalogue. Nothing is sent to a real model.
-- Kill-switch timings are measured in one process on one machine. A real
-  network adds its own delay.
-- Shared-credential detection (case I8) assumes the gateway can tell two
-  callers apart. In real life that fingerprinting is the hard part.
-- The guardrail is deliberately plain (patterns, checksums, a phrase list). The
-  lab measures that, rather than claiming a clever filter.
-- None of this is new on its own. Gateways, masking tools, agent identity
-  products and governance platforms all exist. The point is an open, tested
-  reference that shows its misses.
-
-## Round two: a better filter, and other people's tools
-
-Round one found where the plain filter breaks. Round two does three things:
-
-1. A second filter (`lab/guardrail_v2.py`) that fixes those gaps and leaves some on purpose.
-2. Ten more guardrail cases in `cases/round-2.json`, including harmless text that should be left alone, because catching more can mean catching too much.
-3. A way to run the same inputs on a tool someone else wrote.
-
-```
-python3 run.py --round 2                          # the version 2 filter
-python3 run.py --round 2 --detector v1            # the round-one filter, same inputs
-python3 compare.py v1 v2                          # one table, filters side by side
-python3 compare.py v2 "external:python3 adapters/presidio_cmd.py"
+```bash
+python3 run.py --round 13                              # built-in word-stem stand-in: proves only that the code works
+pip3 install sentence-transformers "numpy<2"           # numpy 2 breaks the torch build I used
+AGL_EMBEDDER=st:all-MiniLM-L6-v2 python3 run.py --round 13
+AGL_EMBEDDER=st:all-MiniLM-L6-v2 python3 mutations_r13.py
 ```
 
-Wrapping another tool takes about 20 lines: see `adapters/example_stub.py` and
-`adapters/README.md`. A tool is only scored on jobs it claims to do, so a PII
-library isn't marked down for not detecting prompt injection.
+A row marked "different" means the result did not match my guess. That is a finding, not an error. The result file records the machine, Python version, git commit, embedder and the SHA-256 of the cases file. Rounds one to four (filters, comparison scripts, Track P) are described in [docs/rounds-1-to-4.md](docs/rounds-1-to-4.md). The method is in [docs/METHOD.md](docs/METHOD.md) and the control map to ISO 27001, NIST, PCI DSS and HIPAA in [docs/control-map.md](docs/control-map.md).
 
-Read the false-alarm case (G15) together with the misses: a tool that detects
-almost nothing leaves harmless text alone and looks good there.
+---
 
-## Round three: the rest of the plan
+## Where to start
 
-Round three builds the remaining use cases from the plan that can run offline:
-approval expiry (A9), personal data in uploaded files (G6), secrets repeated in
-a model's answer (G10), a 200-sample labelled test set (G17), idle agents
-(I10), poisoned agent memory (I12), log retention and tamper evidence (E5),
-model and supplier review (E7), AI notices (E8), the quarterly review diff
-(E10), AI content labels (E12), explaining a declined decision (E13) and
-fallback when a model fails (E14).
+- **You have five minutes.** Watch the [one-minute architecture video](https://roshantrivedi.co.in/ai-governance-lab/), then read the eight findings above.
+- **You are an auditor or a control owner.** Read the control map and the "What held / What broke / What this does not show" blocks on each round. Check that a hash on the page equals the file's SHA-256.
+- **You are an engineer.** Run `python3 run.py --dry-run`, then one round, then its `mutations_rN.py`. Read `lab/gateway.py` and `lab/rag.py`.
+- **You want to break it.** Pick a round, write your expected result first, and [propose the case](https://github.com/trivediroshan1-ui/ai-governance-lab/issues/new) (see below). The two blind spots I already know are listed under limits.
+- **You work on identity at a company.** The real question is which of these would you test first against a real system. That is the next step I cannot take alone.
 
-```
-python3 run.py --round 3
-python3 rates.py v1 v2                  # catch and false-alarm rates on the 200 samples
-python3 rates.py v2 "external:python3 adapters/presidio_cmd.py"
-```
+---
 
-Track P (real assistants under one made-up policy) cannot run offline. It is
-a hand-run harness: `python3 run_p.py --show P1` prints the prompt and the
-made-up material, `python3 run_p.py --record "assistant name"` records what you
-saw. Policy in `docs/kaveri-ai-policy.md`, cases in `cases/track-p.json`.
-Personal accounts and made-up data only.
+## What this does not show
 
-Numbering: round two used G12 to G16 for extra guardrail cases, so the plan's
-labelled test set (G12) is G17 here.
+- The "models", the vault, the directory, the identity API and the approval queue are small models I wrote. Real products behave differently.
+- No AI model was tested in most rounds. One real assistant was tested by hand in a small test (Track P).
+- I wrote both the guesses and the code, so "as expected" means the rules do what I built them to do, not that I thought of every attack. The value comes from the cases other people add.
+- Timings and hashes come from one process on one machine.
+- Two things the lab cannot see: two documents that are each fine to read but add up to a secret, and two people who approve each other's requests.
+- The mappings to laws and standards are my own reading, not legal advice and not a certification.
+- None of this is new on its own. Gateways, masking tools, agent identity products and governance platforms exist. The point is an open, tested reference that shows its misses.
 
-## Round four: fixing the known gaps, and testing on variants you wrote
+---
 
-`lab/guardrail_v3.py` fixes the ten samples version 2 missed in round three
-(spaced PAN, `91xxxxxxxxxx` phones, UPI IDs, `DB_PASSWORD=` lines, JSON
-`client_secret`). It was written after seeing those misses, so a better score on
-the same test set proves nothing about new inputs. The check that does:
+## Propose a case, cite, licence
 
-```
-python3 run.py --round 4                 # the guardrail cases on v3
-python3 compare.py v1 v2 v3              # variant by variant, three filters
-python3 rates.py v1 v2 v3                # the 200 samples
-python3 heldout.py v1 v2 v3              # YOUR variants (cases/held-out.json)
-```
+Write a case I did not think of: say what happens, write your expected result **before** you look at the code, use made-up data only, and open an issue. If it is good, it goes into the next round with your name on it.
 
-Write your variants in `cases/held-out.json` and commit the file before running
-any filter on them. Version 2 stays in the repo unchanged so round two can be
-reproduced.
+If you use this, please cite it as: *Roshan Trivedi, "AI Governance Lab", 2026, https://github.com/trivediroshan1-ui/ai-governance-lab*.
 
-## Licence
-
-MIT. See [LICENSE](LICENSE).
+MIT licence. See [LICENSE](LICENSE). Built by [Roshan Trivedi](https://roshantrivedi.co.in): privileged access and identity for 14+ years, now testing AI governance in the open.

@@ -125,3 +125,5 @@ Write a case I did not think of: say what happens, write your expected result **
 If you use this, please cite it as: *Roshan Trivedi, "AI Governance Lab", 2026, https://github.com/trivediroshan1-ui/ai-governance-lab*.
 
 Code: MIT (see [LICENSE](LICENSE)). Text, books and videos: CC BY 4.0. To cite, use [CITATION.cff](CITATION.cff) or the "Cite this repository" button. Built by [Roshan Trivedi](https://roshantrivedi.co.in): privileged access and identity for 14+ years, now testing AI governance in the open.
+
+New rounds and lab updates: [newsletter](https://buttondown.com/trivedi).

@@ -11,6 +11,8 @@
 [Free book, 69 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-book.pdf) ·
 [Rounds five to thirteen, 74 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
 
+**More from the same method:** [machine identity lab, 46 cases](https://roshantrivedi.co.in/nhi-lab/?utm_source=github&utm_medium=readme) · [MCP human-approval gateway, 210 checks](https://github.com/trivediroshan1-ui/mcp-human-approval-gateway) · [credential tiering self-check](https://roshantrivedi.co.in/tools/tier-check/?utm_source=github&utm_medium=readme)
+
 **On this page:** [Findings](#eight-things-the-lab-found) · [Method](#how-it-stays-honest) · [Rounds](#the-rounds) · [Run it](#run-it) · [Where to start](#where-to-start) · [Limits](#what-this-does-not-show) · [Propose a case](#propose-a-case-cite-licence)
 
 <picture>

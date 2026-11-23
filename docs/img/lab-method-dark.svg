@@ -3,16 +3,16 @@
 <desc id="d">Six steps: write the guess before code, hash it and commit it, run the cases, switch one control off in a copy of the code, check whether a case notices (it must pass normally and then give a different result that is not an error), and keep every file including mistakes. If no case notices, or the case crashes, the test is weak.</desc>
 <style>
 text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-.box{fill:#05061a;stroke:#1f2a40;stroke-width:2;animation:lit 10s infinite}
+.box{fill:#05061a;stroke:#1f2a40;stroke-width:2;animation:lit 10s 3}
 .num{fill:none;stroke:#4de2ff;stroke-width:2} .nt{font-size:13px;font-weight:700;fill:#4de2ff}
 .t1{font-size:17px;font-weight:700;fill:#e8eefc} .t2{font-size:13px;fill:#a9b6d3}
 .h{font-size:26px;font-weight:800;fill:#e8eefc} .sub{font-size:15px;fill:#a9b6d3}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;fill:#8b5cf6}
 .rail{stroke:#1f2a40;stroke-width:3;fill:none} .tick{stroke:#1f2a40;stroke-width:2}
 @keyframes lit{0%{stroke:#4de2ff;stroke-width:3}12%{stroke:#4de2ff;stroke-width:3}18%,100%{stroke:#1f2a40;stroke-width:2}}
-.dot{fill:#4de2ff;offset-path:path("M125.0 262 H1075.0");animation:move 10s linear infinite}
+.dot{fill:#4de2ff;offset-path:path("M125.0 262 H1075.0");animation:move 10s linear 3 forwards}
 @keyframes move{0%{offset-distance:0%}75%,100%{offset-distance:100%}}
-.ok,.bad{opacity:0;animation:show 10s infinite} .bad{animation-name:show2}
+.ok,.bad{opacity:1;animation:show 10s 3} .bad{animation-name:show2}
 @keyframes show{0%,62%{opacity:0}65%,79%{opacity:1}82%,100%{opacity:0}}
 @keyframes show2{0%,81%{opacity:0}84%,97%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion: reduce){.box,.dot,.ok,.bad{animation:none} .ok,.bad{opacity:1} .dot{display:none}}

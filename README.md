@@ -2,16 +2,21 @@
 
 ![Code: MIT](https://img.shields.io/badge/code-MIT-4de2ff?style=flat-square) ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-8b5cf6?style=flat-square) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-34d399?style=flat-square) ![164 cases](https://img.shields.io/badge/cases-164-f7c873?style=flat-square) [![Lab checks](https://github.com/trivediroshan1-ui/ai-governance-lab/actions/workflows/lab.yml/badge.svg)](https://github.com/trivediroshan1-ui/ai-governance-lab/actions/workflows/lab.yml)
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/banner-dark.svg">
+  <img alt="AI Governance Lab. Do the controls hold when someone pushes on them? 13 rounds and 164 cases on made-up data, drawn as one mark per case: tall red marks are the three cases where my written guess was wrong." src="docs/img/banner-light.svg" width="100%">
+</picture>
+
 **Do AI governance controls actually hold, or do they only look right in a mapping sheet?**
 13 rounds, 164 cases on made-up data. For every case I wrote what I expected, hashed it and committed it before the code, ran it, then switched each control off to see whether a check noticed. Mistakes stay in the record.
 
 [Read it with diagrams and videos](https://roshantrivedi.co.in/ai-governance-lab/?utm_source=github&utm_medium=readme) ·
 [Every case](https://roshantrivedi.co.in/ai-governance-lab/cases/) ·
 [Every command I ran on my Mac, with output](https://roshantrivedi.co.in/ai-governance-lab/mac/) ·
-[Free book, 69 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-book.pdf) ·
-[Rounds five to thirteen, 74 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
+[Free book, 71 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-book.pdf) ·
+[Rounds five to thirteen, 76 pages](https://roshantrivedi.co.in/assets/ai-governance-lab-addendum.pdf)
 
-**More from the same method:** [machine identity lab, 46 cases](https://roshantrivedi.co.in/nhi-lab/?utm_source=github&utm_medium=readme) · [MCP human-approval gateway, 210 checks](https://github.com/trivediroshan1-ui/mcp-human-approval-gateway) · [credential tiering self-check](https://roshantrivedi.co.in/tools/tier-check/?utm_source=github&utm_medium=readme)
+**More from the same method:** [machine identity lab, 67 cases](https://roshantrivedi.co.in/nhi-lab/?utm_source=github&utm_medium=readme) · [MCP human-approval gateway, 210 checks](https://github.com/trivediroshan1-ui/mcp-human-approval-gateway) · [credential tiering self-check](https://roshantrivedi.co.in/tools/tier-check/?utm_source=github&utm_medium=readme)
 
 **On this page:** [Findings](#eight-things-the-lab-found) · [Method](#how-it-stays-honest) · [Rounds](#the-rounds) · [Run it](#run-it) · [Where to start](#where-to-start) · [Limits](#what-this-does-not-show) · [Propose a case](#propose-a-case-cite-licence)
 
